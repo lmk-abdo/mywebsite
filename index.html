@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="برنامجي">
+<link rel="manifest" href="manifest.json">
+<title>برنامجي — 6 أشهر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface2: #1a1a26;
+  --surface3: #22223a;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0f0f8;
+  --muted: #7a7a9a;
+  --dim: #4a4a6a;
+  --p1: #6c63ff;
+  --p1l: #8b84ff;
+  --p1bg: rgba(108,99,255,0.12);
+  --p2: #00d4a0;
+  --p2bg: rgba(0,212,160,0.1);
+  --p3: #ff9f43;
+  --p3bg: rgba(255,159,67,0.1);
+  --danger: #ff6b6b;
+  --dangerbg: rgba(255,107,107,0.1);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font: 'IBM Plex Sans Arabic', sans-serif;
+  --nav-h: 64px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.6; overscroll-behavior: none; }
+body { display: flex; flex-direction: column; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; } 
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 4px; }
+
+/* LAYOUT */
+#app { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+.page { display: none; flex: 1; overflow-y: auto; padding: 20px 16px calc(var(--nav-h) + var(--safe-bottom) + 20px); }
+.page.active { display: block; }
+@media(min-width:768px) {
+  .page { max-width: 720px; margin: 0 auto; padding: 28px 28px calc(var(--nav-h) + 28px); }
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: calc(var(--nav-h) + var(--safe-bottom));
+  background: rgba(18,18,26,0.92);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex; z-index: 100;
+  padding-bottom: var(--safe-bottom);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; cursor: pointer; transition: all .2s; color: var(--dim);
+  font-size: 11px; font-weight: 500; padding: 8px 0;
+  border: none; background: none;
+}
+.nav-item.active { color: var(--p1l); }
+.nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nav-item.active svg { stroke: var(--p1l); }
+
+/* HEADER */
+.page-header { margin-bottom: 24px; }
+.page-header h1 { font-size: 22px; font-weight: 600; color: var(--text); }
+.page-header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* CARDS */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+}
+.card-sm { padding: 12px 14px; margin-bottom: 8px; }
+
+/* PHASE PILLS */
+.phase-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; padding: 4px 10px;
+  border-radius: 99px; letter-spacing: .03em;
+}
+.phase-1 { background: var(--p1bg); color: var(--p1l); }
+.phase-2 { background: var(--p2bg); color: var(--p2); }
+.phase-3 { background: var(--p3bg); color: var(--p3); }
+
+/* PROGRESS */
+.progress-wrap { height: 5px; background: var(--surface3); border-radius: 99px; overflow: hidden; margin: 8px 0; }
+.progress-fill { height: 100%; border-radius: 99px; transition: width .5s cubic-bezier(.4,0,.2,1); }
+.fill-p1 { background: var(--p1); }
+.fill-p2 { background: var(--p2); }
+.fill-p3 { background: var(--p3); }
+
+/* STATS ROW */
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 20px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+.stat-val { font-size: 22px; font-weight: 600; color: var(--text); }
+.stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* TASK ITEM */
+.task-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px;
+  cursor: pointer; transition: all .15s;
+}
+.task-item:hover { border-color: var(--border2); }
+.task-item.done { opacity: .5; }
+.task-item.done .task-name { text-decoration: line-through; color: var(--muted); }
+.task-check {
+  width: 20px; height: 20px; min-width: 20px; border-radius: 6px;
+  border: 1.5px solid var(--dim); display: flex; align-items: center;
+  justify-content: center; margin-top: 1px; transition: all .2s;
+}
+.task-item.done .task-check { background: var(--p2); border-color: var(--p2); }
+.task-check svg { width: 12px; height: 12px; stroke: #000; stroke-width: 2.5; display: none; }
+.task-item.done .task-check svg { display: block; }
+.task-name { font-size: 14px; color: var(--text); line-height: 1.4; }
+.task-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.task-badge { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; margin-right: 6px; }
+
+/* DAY SELECTOR */
+.day-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; scrollbar-width: none; }
+.day-scroll::-webkit-scrollbar { display: none; }
+.day-btn {
+  flex-shrink: 0; width: 52px; padding: 8px 4px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; cursor: pointer; text-align: center;
+  transition: all .15s; color: var(--muted); font-family: var(--font);
+}
+.day-btn:hover { border-color: var(--border2); }
+.day-btn.active { background: var(--p1bg); border-color: var(--p1); color: var(--p1l); }
+.day-btn.completed { border-color: var(--p2); }
+.day-label { font-size: 11px; font-weight: 600; }
+.day-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--p2); margin: 4px auto 0; display: none; }
+.day-btn.completed .day-dot { display: block; }
+
+/* SECTION LABEL */
+.sec-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin: 20px 0 10px; }
+
+/* HABIT TRACKER */
+.habit-grid { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; }
+.habit-dots { display: flex; gap: 5px; }
+.habit-dot { width: 14px; height: 14px; border-radius: 4px; background: var(--surface3); cursor: pointer; transition: all .15s; border: none; }
+.habit-dot.on { background: var(--p2); }
+
+/* ADD TASK */
+.add-task-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.add-task-row input {
+  flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text);
+  font-family: var(--font); font-size: 14px; outline: none;
+  transition: border-color .15s;
+}
+.add-task-row input:focus { border-color: var(--p1); }
+.add-task-row input::placeholder { color: var(--dim); }
+.btn-add {
+  background: var(--p1); color: #fff; border: none;
+  border-radius: var(--radius-sm); padding: 10px 16px; font-size: 14px;
+  font-family: var(--font); cursor: pointer; font-weight: 500; transition: opacity .15s;
+  white-space: nowrap;
+}
+.btn-add:hover { opacity: .85; }
+
+/* BOOK CARD */
+.book-item { display: flex; gap: 12px; align-items: flex-start; }
+.book-spine { width: 4px; border-radius: 99px; align-self: stretch; min-height: 40px; flex-shrink: 0; }
+.book-title { font-size: 14px; font-weight: 500; color: var(--text); }
+.book-author { font-size: 12px; color: var(--muted); }
+.book-phase { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* WEEKLY REVIEW */
+.review-q { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.review-input {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 12px; color: var(--text);
+  font-family: var(--font); font-size: 13px; resize: none; outline: none;
+  transition: border-color .15s; min-height: 70px;
+}
+.review-input:focus { border-color: var(--p1); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: calc(var(--nav-h) + var(--safe-bottom) + 12px);
+  left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--surface3); color: var(--text); padding: 10px 20px;
+  border-radius: 99px; font-size: 13px; opacity: 0; transition: all .3s;
+  pointer-events: none; white-space: nowrap; z-index: 200;
+  border: 1px solid var(--border2);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* MIT */
+.mit-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.mit-item:last-child { border-bottom: none; }
+.mit-num { font-size: 13px; font-weight: 700; color: var(--p1l); min-width: 20px; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+.page.active > * { animation: fadeUp .3s ease both; }
+.page.active > *:nth-child(2) { animation-delay: .05s; }
+.page.active > *:nth-child(3) { animation-delay: .1s; }
+.page.active > *:nth-child(4) { animation-delay: .15s; }
+
+/* PHASE HEADER */
+.phase-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.phase-months { font-size: 12px; color: var(--muted); }
+
+/* EMPTY STATE */
+.empty { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 13px; }
+
+/* STREAK */
+.streak-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--p3bg); color: var(--p3); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 99px; }
+
+/* SWITCH */
+.domain-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.chip { font-size: 12px; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: all .15s; font-family: var(--font); }
+.chip.active { background: var(--p1bg); border-color: var(--p1); color: var(--p1l); }
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- PAGE: HOME -->
+<div class="page active" id="page-home">
+  <div class="page-header">
+    <h1 id="greeting">صباح الخير 👋</h1>
+    <p id="today-date"></p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val" id="stat-done">0</div>
+      <div class="stat-lbl">مكتملة</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="stat-streak">0</div>
+      <div class="stat-lbl">أيام متواصلة</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="stat-week-pct">0%</div>
+      <div class="stat-lbl">هذا الأسبوع</div>
+    </div>
+  </div>
+
+  <div class="sec-label">مهام اليوم الأساسية (MIT)</div>
+  <div class="card">
+    <div id="mit-list"></div>
+    <div style="margin-top:12px; display:flex; gap:8px;">
+      <input class="add-task-row" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;" id="mit-input" placeholder="أضف مهمة أساسية...">
+      <button class="btn-add" onclick="addMIT()" style="padding:9px 14px;font-size:13px;">+</button>
+    </div>
+  </div>
+
+  <div class="sec-label">التقدم الأسبوعي</div>
+  <div class="card">
+    <div id="habit-list"></div>
+  </div>
+
+  <div class="sec-label">المرحلة الحالية</div>
+  <div class="card" id="current-phase-card"></div>
+</div>
+
+<!-- PAGE: TASKS -->
+<div class="page" id="page-tasks">
+  <div class="page-header">
+    <h1>المهام اليومية</h1>
+    <p>تتبع كل مهام البرنامج</p>
+  </div>
+
+  <div class="day-scroll" id="day-scroll"></div>
+
+  <div class="domain-chips" id="domain-chips">
+    <button class="chip active" data-domain="all">الكل</button>
+    <button class="chip" data-domain="study">دراسة</button>
+    <button class="chip" data-domain="ccna">CCNA</button>
+    <button class="chip" data-domain="youtube">يوتيوب</button>
+    <button class="chip" data-domain="sport">رياضة</button>
+    <button class="chip" data-domain="ecom">تجارة</button>
+    <button class="chip" data-domain="read">قراءة</button>
+  </div>
+
+  <div class="add-task-row">
+    <input id="task-input" placeholder="أضف مهمة جديدة...">
+    <select id="task-domain" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 10px;color:var(--muted);font-family:var(--font);font-size:13px;outline:none;">
+      <option value="study">دراسة</option>
+      <option value="ccna">CCNA</option>
+      <option value="youtube">يوتيوب</option>
+      <option value="sport">رياضة</option>
+      <option value="ecom">تجارة</option>
+      <option value="read">قراءة</option>
+    </select>
+    <button class="btn-add" onclick="addTask()">إضافة</button>
+  </div>
+
+  <div id="task-list"></div>
+</div>
+
+<!-- PAGE: PROGRAM -->
+<div class="page" id="page-program">
+  <div class="page-header">
+    <h1>خطة الـ 6 أشهر</h1>
+    <p>مراحل البرنامج والأهداف</p>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="phase-header">
+      <span class="phase-pill phase-1">المرحلة 1</span>
+      <span class="phase-months">شهر 1–2</span>
+    </div>
+    <div style="font-size:14px;font-weight:500;margin:8px 0 4px">الأساس والبناء</div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6">بناء العادات الأساسية، تعلم DaVinci، مختبرات CCNA الأولى، وإنشاء فيديو تجريبي.</p>
+    <div class="progress-wrap"><div class="progress-fill fill-p1" id="prog1" style="width:0%"></div></div>
+    <div style="font-size:12px;color:var(--muted)" id="prog1-txt">0 من 8 أسابيع</div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="phase-header">
+      <span class="phase-pill phase-2">المرحلة 2</span>
+      <span class="phase-months">شهر 3–4</span>
+    </div>
+    <div style="font-size:14px;font-weight:500;margin:8px 0 4px">التسريع والنمو</div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6">نشر أول فيديو، التعمق في VLANs و STP، البدء في استكشاف التجارة الإلكترونية.</p>
+    <div class="progress-wrap"><div class="progress-fill fill-p2" id="prog2" style="width:0%"></div></div>
+    <div style="font-size:12px;color:var(--muted)" id="prog2-txt">0 من 8 أسابيع</div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="phase-header">
+      <span class="phase-pill phase-3">المرحلة 3</span>
+      <span class="phase-months">شهر 5–6</span>
+    </div>
+    <div style="font-size:14px;font-weight:500;margin:8px 0 4px">الإطلاق والتوسع</div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6">التأهل لامتحان CCNA، إنتاج منتظم على اليوتيوب، واختبار أول منتج في التجارة الإلكترونية.</p>
+    <div class="progress-wrap"><div class="progress-fill fill-p3" id="prog3" style="width:0%"></div></div>
+    <div style="font-size:12px;color:var(--muted)" id="prog3-txt">0 من 8 أسابيع</div>
+  </div>
+
+  <div class="sec-label">قائمة الكتب</div>
+  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p1)"></div><div><div class="book-title">Atomic Habits</div><div class="book-author">James Clear</div><div class="book-phase">المرحلة 1 — الشهر الأول</div></div></div></div>
+  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p1l)"></div><div><div class="book-title">Deep Work</div><div class="book-author">Cal Newport</div><div class="book-phase">المرحلة 1 — الشهر الثاني</div></div></div></div>
+  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p2)"></div><div><div class="book-title">The One Thing</div><div class="book-author">Gary Keller</div><div class="book-phase">المرحلة 2 — الشهر الثالث</div></div></div></div>
+  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p2)"></div><div><div class="book-title">$100M Offers</div><div class="book-author">Alex Hormozi</div><div class="book-phase">المرحلة 2 — الشهر الرابع</div></div></div></div>
+  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p3)"></div><div><div class="book-title">Show Your Work</div><div class="book-author">Austin Kleon</div><div class="book-phase">المرحلة 3 — الشهر الخامس</div></div></div></div>
+  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p3)"></div><div><div class="book-title">The Lean Startup</div><div class="book-author">Eric Ries</div><div class="book-phase">المرحلة 3 — الشهر السادس</div></div></div></div>
+</div>
+
+<!-- PAGE: REVIEW -->
+<div class="page" id="page-review">
+  <div class="page-header">
+    <h1>المراجعة الأسبوعية</h1>
+    <p>5 دقائق كل جمعة مساءً</p>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <span style="font-size:14px;font-weight:500">تقييم الأسبوع</span>
+      <span id="review-score-badge" class="streak-badge">0%</span>
+    </div>
+    <div id="review-checks"></div>
+  </div>
+
+  <div class="sec-label">تأمل الأسبوع</div>
+  <div class="card">
+    <div class="review-q">ما الذي أنجزته هذا الأسبوع فعلاً؟</div>
+    <textarea class="review-input" id="r1" placeholder="اكتب هنا..." onchange="saveReview()"></textarea>
+    <div class="review-q" style="margin-top:12px">ما الذي أعاقني أكثر من غيره؟</div>
+    <textarea class="review-input" id="r2" placeholder="اكتب هنا..." onchange="saveReview()"></textarea>
+    <div class="review-q" style="margin-top:12px">الشيء الواحد الذي سأركز عليه الأسبوع القادم:</div>
+    <textarea class="review-input" id="r3" placeholder="اكتب هنا..." style="min-height:50px" onchange="saveReview()"></textarea>
+  </div>
+</div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="home">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    الرئيسية
+  </button>
+  <button class="nav-item" data-page="tasks">
+    <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    المهام
+  </button>
+  <button class="nav-item" data-page="program">
+    <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    البرنامج
+  </button>
+  <button class="nav-item" data-page="review">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    المراجعة
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== STATE =====
+const STORE_KEY = 'prog6m_v1';
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; }
+}
+function save(data) { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+
+let state = load();
+if (!state.tasks) state.tasks = {};
+if (!state.mit) state.mit = [];
+if (!state.habits) state.habits = {};
+if (!state.review) state.review = {};
+if (!state.startDate) { state.startDate = new Date().toISOString().split('T')[0]; save(state); }
+
+// ===== UTILS =====
+const todayKey = () => new Date().toISOString().split('T')[0];
+const dayKeys = () => {
+  const days = [];
+  const now = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    days.push(d.toISOString().split('T')[0]);
+  }
+  return days;
+};
+const dayNames = ['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+const domainColors = { study:'#6c63ff', ccna:'#00d4a0', youtube:'#ff6b6b', sport:'#ff9f43', ecom:'#a29bfe', read:'#fd79a8' };
+const domainLabels = { study:'دراسة', ccna:'CCNA', youtube:'يوتيوب', sport:'رياضة', ecom:'تجارة', read:'قراءة' };
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ===== NAVIGATION =====
+let currentPage = 'home';
+let selectedDay = todayKey();
+let selectedDomain = 'all';
+
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const page = btn.dataset.page;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    currentPage = page;
+    if (page === 'tasks') renderTaskPage();
+    if (page === 'home') renderHome();
+    if (page === 'review') renderReview();
+    if (page === 'program') renderProgram();
+  });
+});
+
+// ===== HOME =====
+function renderHome() {
+  const now = new Date();
+  const hours = now.getHours();
+  const greet = hours < 12 ? 'صباح الخير' : hours < 17 ? 'مرحباً' : 'مساء الخير';
+  document.getElementById('greeting').textContent = greet + ' 👋';
+  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  document.getElementById('today-date').textContent = `${days[now.getDay()]}، ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+  const today = todayKey();
+  const todayTasks = state.tasks[today] || [];
+  const doneTasks = todayTasks.filter(t => t.done).length;
+  document.getElementById('stat-done').textContent = doneTasks + '/' + todayTasks.length;
+
+  // streak
+  let streak = 0;
+  const dk = dayKeys();
+  for (let i = dk.length - 1; i >= 0; i--) {
+    const ts = state.tasks[dk[i]] || [];
+    if (ts.length > 0 && ts.every(t => t.done)) streak++;
+    else if (dk[i] !== today) break;
+  }
+  document.getElementById('stat-streak').textContent = streak;
+
+  // week pct
+  let weekDone = 0, weekTotal = 0;
+  dayKeys().forEach(k => {
+    const ts = state.tasks[k] || [];
+    weekTotal += ts.length;
+    weekDone += ts.filter(t => t.done).length;
+  });
+  const pct = weekTotal > 0 ? Math.round(weekDone / weekTotal * 100) : 0;
+  document.getElementById('stat-week-pct').textContent = pct + '%';
+
+  // MIT
+  renderMIT();
+
+  // habits
+  renderHabits();
+
+  // phase card
+  const start = new Date(state.startDate);
+  const diff = Math.floor((now - start) / (1000*60*60*24*7));
+  const week = Math.min(diff + 1, 24);
+  let phase, pname, pbg;
+  if (week <= 8) { phase = 1; pname = 'الأساس والبناء'; pbg = 'phase-1'; }
+  else if (week <= 16) { phase = 2; pname = 'التسريع والنمو'; pbg = 'phase-2'; }
+  else { phase = 3; pname = 'الإطلاق والتوسع'; pbg = 'phase-3'; }
+  document.getElementById('current-phase-card').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span class="phase-pill ${pbg}">المرحلة ${phase}</span>
+      <span style="font-size:12px;color:var(--muted)">الأسبوع ${week} من 24</span>
+    </div>
+    <div style="font-weight:500;margin-bottom:6px">${pname}</div>
+    <div class="progress-wrap"><div class="progress-fill fill-p${phase}" style="width:${Math.min(Math.round(week/24*100),100)}%"></div></div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px">${Math.min(Math.round(week/24*100),100)}% من البرنامج مكتمل</div>
+  `;
+}
+
+function renderMIT() {
+  const list = document.getElementById('mit-list');
+  const mits = state.mit || [];
+  if (mits.length === 0) {
+    list.innerHTML = '<div class="empty">لا توجد مهام أساسية اليوم بعد</div>';
+    return;
+  }
+  list.innerHTML = mits.map((m, i) => `
+    <div class="mit-item">
+      <span class="mit-num">${i+1}</span>
+      <div style="flex:1;font-size:14px;${m.done?'text-decoration:line-through;color:var(--muted)':''}">${m.text}</div>
+      <button onclick="toggleMIT(${i})" style="background:${m.done?'var(--p2bg)':'var(--surface3)'};border:none;border-radius:6px;padding:4px 10px;font-size:11px;color:${m.done?'var(--p2)':'var(--muted)'};cursor:pointer;font-family:var(--font)">${m.done?'مكتملة':'إنجاز'}</button>
+      <button onclick="deleteMIT(${i})" style="background:none;border:none;color:var(--dim);font-size:16px;cursor:pointer;padding:0 4px">×</button>
+    </div>
+  `).join('');
+}
+
+function addMIT() {
+  const inp = document.getElementById('mit-input');
+  const text = inp.value.trim();
+  if (!text) return;
+  if (!state.mit) state.mit = [];
+  if (state.mit.length >= 3) { showToast('أقصى 3 مهام أساسية يومياً'); return; }
+  state.mit.push({ text, done: false });
+  inp.value = '';
+  save(state);
+  renderMIT();
+  showToast('تمت الإضافة');
+}
+
+function toggleMIT(i) {
+  state.mit[i].done = !state.mit[i].done;
+  save(state);
+  renderMIT();
+}
+
+function deleteMIT(i) {
+  state.mit.splice(i, 1);
+  save(state);
+  renderMIT();
+}
+
+document.getElementById('mit-input').addEventListener('keydown', e => { if (e.key === 'Enter') addMIT(); });
+
+const HABITS = [
+  { id: 'ccna', label: 'CCNA / دراسة' },
+  { id: 'sport', label: 'رياضة' },
+  { id: 'read', label: 'قراءة' },
+  { id: 'youtube', label: 'يوتيوب' },
+];
+
+function renderHabits() {
+  const dk = dayKeys();
+  const el = document.getElementById('habit-list');
+  el.innerHTML = HABITS.map(h => {
+    const dots = dk.map((k, di) => {
+      const on = (state.habits[k] || {})[h.id];
+      return `<button class="habit-dot ${on?'on':''}" onclick="toggleHabit('${k}','${h.id}')" title="${dayNames[new Date(k).getDay()]}"></button>`;
+    }).join('');
+    const count = dk.filter(k => (state.habits[k] || {})[h.id]).length;
+    return `
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="min-width:80px;font-size:12px;color:var(--muted)">${h.label}</div>
+        <div style="display:flex;gap:5px;flex:1">${dots}</div>
+        <div style="font-size:12px;color:var(--muted);min-width:28px;text-align:left">${count}/7</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleHabit(day, id) {
+  if (!state.habits[day]) state.habits[day] = {};
+  state.habits[day][id] = !state.habits[day][id];
+  save(state);
+  renderHabits();
+}
+
+// ===== TASKS PAGE =====
+function renderTaskPage() {
+  renderDayScroll();
+  renderDomainChips();
+  renderTaskList();
+}
+
+function renderDayScroll() {
+  const dk = dayKeys();
+  const scroll = document.getElementById('day-scroll');
+  scroll.innerHTML = dk.map(k => {
+    const d = new Date(k);
+    const name = dayNames[d.getDay()];
+    const ts = state.tasks[k] || [];
+    const allDone = ts.length > 0 && ts.every(t => t.done);
+    return `<button class="day-btn ${k===selectedDay?'active':''} ${allDone?'completed':''}" onclick="selectDay('${k}')">
+      <div class="day-label">${name}</div>
+      <div style="font-size:10px;color:var(--dim)">${d.getDate()}</div>
+      <div class="day-dot"></div>
+    </button>`;
+  }).join('');
+}
+
+function selectDay(k) {
+  selectedDay = k;
+  renderDayScroll();
+  renderTaskList();
+}
+
+document.getElementById('domain-chips').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  selectedDomain = chip.dataset.domain;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  renderTaskList();
+});
+
+function renderDomainChips() {}
+
+function renderTaskList() {
+  const list = document.getElementById('task-list');
+  const tasks = (state.tasks[selectedDay] || []).filter(t =>
+    selectedDomain === 'all' || t.domain === selectedDomain
+  );
+  if (tasks.length === 0) {
+    list.innerHTML = '<div class="empty">لا توجد مهام — أضف مهمة جديدة أعلاه</div>';
+    return;
+  }
+  list.innerHTML = tasks.map((t, i) => {
+    const realIdx = (state.tasks[selectedDay] || []).indexOf(t);
+    const col = domainColors[t.domain] || '#6c63ff';
+    const lbl = domainLabels[t.domain] || t.domain;
+    return `<div class="task-item ${t.done?'done':''}" onclick="toggleTask('${selectedDay}',${realIdx})">
+      <div class="task-check">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div style="flex:1">
+        <div class="task-name">${t.text}</div>
+        <div class="task-meta">
+          <span class="task-badge" style="background:${col}22;color:${col}">${lbl}</span>
+        </div>
+      </div>
+      <button onclick="event.stopPropagation();deleteTask('${selectedDay}',${realIdx})" style="background:none;border:none;color:var(--dim);font-size:18px;cursor:pointer;padding:0 4px">×</button>
+    </div>`;
+  }).join('');
+}
+
+function addTask() {
+  const inp = document.getElementById('task-input');
+  const domain = document.getElementById('task-domain').value;
+  const text = inp.value.trim();
+  if (!text) return;
+  if (!state.tasks[selectedDay]) state.tasks[selectedDay] = [];
+  state.tasks[selectedDay].push({ text, domain, done: false });
+  inp.value = '';
+  save(state);
+  renderTaskList();
+  renderDayScroll();
+  showToast('تمت إضافة المهمة');
+}
+
+document.getElementById('task-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+function toggleTask(day, i) {
+  state.tasks[day][i].done = !state.tasks[day][i].done;
+  save(state);
+  renderTaskList();
+  renderDayScroll();
+  if (state.tasks[day][i].done) showToast('أحسنت! مهمة مكتملة ✓');
+}
+
+function deleteTask(day, i) {
+  state.tasks[day].splice(i, 1);
+  save(state);
+  renderTaskList();
+  renderDayScroll();
+}
+
+// ===== PROGRAM =====
+function renderProgram() {
+  const start = new Date(state.startDate);
+  const now = new Date();
+  const week = Math.floor((now - start) / (1000*60*60*24*7));
+  const w1 = Math.min(Math.max(week, 0), 8);
+  const w2 = Math.min(Math.max(week - 8, 0), 8);
+  const w3 = Math.min(Math.max(week - 16, 0), 8);
+  document.getElementById('prog1').style.width = Math.round(w1/8*100) + '%';
+  document.getElementById('prog2').style.width = Math.round(w2/8*100) + '%';
+  document.getElementById('prog3').style.width = Math.round(w3/8*100) + '%';
+  document.getElementById('prog1-txt').textContent = `${w1} من 8 أسابيع`;
+  document.getElementById('prog2-txt').textContent = `${w2} من 8 أسابيع`;
+  document.getElementById('prog3-txt').textContent = `${w3} من 8 أسابيع`;
+}
+
+// ===== REVIEW =====
+const REVIEW_ITEMS = [
+  'أنجزت جلسات CCNA المخططة',
+  'عملت على قناة اليوتيوب',
+  'مارست الرياضة 3 مرات على الأقل',
+  'قرأت في كتاب الشهر',
+  'حددت مهام MIT يومية',
+  'تجنبت التشتت الرقمي',
+  'نمت 7 ساعات+ معظم الليالي',
+];
+
+function renderReview() {
+  const weekKey = getWeekKey();
+  const rev = state.review[weekKey] || {};
+  const checks = rev.checks || {};
+  const el = document.getElementById('review-checks');
+  el.innerHTML = REVIEW_ITEMS.map((item, i) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);${i===REVIEW_ITEMS.length-1?'border-bottom:none':''}">
+      <div class="task-check ${checks[i]?'done':''}" style="cursor:pointer" onclick="toggleReviewCheck(${i})">
+        <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#000;stroke-width:2.5;display:${checks[i]?'block':'none'}"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div style="font-size:13px;color:${checks[i]?'var(--muted)':'var(--text)'};${checks[i]?'text-decoration:line-through':''}">${item}</div>
+    </div>
+  `).join('');
+  const done = Object.values(checks).filter(Boolean).length;
+  const pct = Math.round(done / REVIEW_ITEMS.length * 100);
+  document.getElementById('review-score-badge').textContent = pct + '%';
+
+  const r = rev.reflections || {};
+  document.getElementById('r1').value = r.r1 || '';
+  document.getElementById('r2').value = r.r2 || '';
+  document.getElementById('r3').value = r.r3 || '';
+}
+
+function getWeekKey() {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = now.getDate() - day;
+  const sun = new Date(now.setDate(diff));
+  return sun.toISOString().split('T')[0];
+}
+
+function toggleReviewCheck(i) {
+  const weekKey = getWeekKey();
+  if (!state.review[weekKey]) state.review[weekKey] = {};
+  if (!state.review[weekKey].checks) state.review[weekKey].checks = {};
+  state.review[weekKey].checks[i] = !state.review[weekKey].checks[i];
+  save(state);
+  renderReview();
+}
+
+function saveReview() {
+  const weekKey = getWeekKey();
+  if (!state.review[weekKey]) state.review[weekKey] = {};
+  state.review[weekKey].reflections = {
+    r1: document.getElementById('r1').value,
+    r2: document.getElementById('r2').value,
+    r3: document.getElementById('r3').value,
+  };
+  save(state);
+}
+
+// ===== INIT =====
+renderHome();
+
+// reset MIT daily
+const lastMITDate = state.mitDate;
+const todayStr = todayKey();
+if (lastMITDate !== todayStr) {
+  state.mit = [];
+  state.mitDate = todayStr;
+  save(state);
+}
+</script>
+</body>
+</html>
