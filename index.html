@@ -3,286 +3,762 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#0a0a0f">
+<meta name="theme-color" content="#0d0d14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="برنامجي">
-<link rel="manifest" href="manifest.json">
-<title>برنامجي — 6 أشهر</title>
+<meta name="apple-mobile-web-app-title" content="lmkabdo">
+<meta name="description" content="lmkabdo — تتبع أهدافك وعاداتك بأسلوب احترافي">
+<title>lmkabdo</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
+/* ============================================================
+   LMKABDO — DESIGN SYSTEM
+   ============================================================ */
+
 :root {
-  --bg: #0a0a0f;
-  --surface: #12121a;
-  --surface2: #1a1a26;
-  --surface3: #22223a;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --text: #f0f0f8;
-  --muted: #7a7a9a;
-  --dim: #4a4a6a;
-  --p1: #6c63ff;
-  --p1l: #8b84ff;
-  --p1bg: rgba(108,99,255,0.12);
-  --p2: #00d4a0;
-  --p2bg: rgba(0,212,160,0.1);
-  --p3: #ff9f43;
-  --p3bg: rgba(255,159,67,0.1);
-  --danger: #ff6b6b;
-  --dangerbg: rgba(255,107,107,0.1);
-  --radius: 14px;
-  --radius-sm: 8px;
-  --font: 'IBM Plex Sans Arabic', sans-serif;
-  --nav-h: 64px;
+  /* Dark theme (default) */
+  --bg: #0d0d14;
+  --bg2: #111118;
+  --surface: #15151f;
+  --surface2: #1c1c2a;
+  --surface3: #232336;
+  --surface4: #2a2a40;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.11);
+  --border3: rgba(255,255,255,0.18);
+  --text: #eeeef5;
+  --text2: #c0c0d5;
+  --muted: #7070a0;
+  --dim: #44447a;
+
+  /* Brand accents */
+  --violet: #7c6fff;
+  --violet-l: #a59bff;
+  --violet-bg: rgba(124,111,255,0.1);
+  --violet-glow: rgba(124,111,255,0.25);
+  --mint: #00e5b8;
+  --mint-l: #33ffcc;
+  --mint-bg: rgba(0,229,184,0.08);
+  --amber: #ffb547;
+  --amber-bg: rgba(255,181,71,0.1);
+  --rose: #ff6b8a;
+  --rose-bg: rgba(255,107,138,0.1);
+  --sky: #5aadff;
+  --sky-bg: rgba(90,173,255,0.1);
+  --success: #00e5b8;
+  --danger: #ff6b8a;
+  --warn: #ffb547;
+
+  /* Layout */
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+  --nav-h: 68px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.6; overscroll-behavior: none; }
-body { display: flex; flex-direction: column; }
+  --safe-top: env(safe-area-inset-top, 0px);
 
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 4px; } 
+  /* Font */
+  --font: 'IBM Plex Sans Arabic', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  /* Shadows */
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.3);
+  --glow-violet: 0 0 20px rgba(124,111,255,0.3);
+}
+
+[data-theme="light"] {
+  --bg: #f4f4fa;
+  --bg2: #ebebf5;
+  --surface: #ffffff;
+  --surface2: #f0f0fa;
+  --surface3: #e8e8f5;
+  --surface4: #dededf;
+  --border: rgba(0,0,0,0.06);
+  --border2: rgba(0,0,0,0.1);
+  --border3: rgba(0,0,0,0.16);
+  --text: #111120;
+  --text2: #333350;
+  --muted: #7070a0;
+  --dim: #aaaacc;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; font-family: var(--font); font-size: 15px; line-height: 1.6; overscroll-behavior: none; }
+body { background: var(--bg); color: var(--text); display: flex; flex-direction: column; transition: background .3s, color .3s; }
+
+::-webkit-scrollbar { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--surface4); border-radius: 4px; }
 
-/* LAYOUT */
-#app { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
-.page { display: none; flex: 1; overflow-y: auto; padding: 20px 16px calc(var(--nav-h) + var(--safe-bottom) + 20px); }
+a { color: var(--violet-l); text-decoration: none; }
+button { font-family: var(--font); cursor: pointer; }
+input, textarea, select { font-family: var(--font); }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+#app { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; position: relative; }
+
+.page {
+  display: none; flex: 1; overflow-y: auto;
+  padding: 16px 16px calc(var(--nav-h) + var(--safe-bottom) + 20px);
+}
 .page.active { display: block; }
-@media(min-width:768px) {
-  .page { max-width: 720px; margin: 0 auto; padding: 28px 28px calc(var(--nav-h) + 28px); }
+
+@media (min-width: 640px) {
+  .page { max-width: 680px; margin: 0 auto; padding: 24px 24px calc(var(--nav-h) + 32px); }
 }
 
-/* BOTTOM NAV */
+/* ============================================================
+   BOTTOM NAV
+   ============================================================ */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   height: calc(var(--nav-h) + var(--safe-bottom));
-  background: rgba(18,18,26,0.92);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border);
-  display: flex; z-index: 100;
+  background: rgba(21,21,31,0.95);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-top: 1px solid var(--border2);
+  display: flex; z-index: 200;
   padding-bottom: var(--safe-bottom);
 }
+[data-theme="light"] .bottom-nav { background: rgba(255,255,255,0.95); }
+
 .nav-item {
   flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 4px; cursor: pointer; transition: all .2s; color: var(--dim);
-  font-size: 11px; font-weight: 500; padding: 8px 0;
-  border: none; background: none;
+  gap: 3px; cursor: pointer; color: var(--dim); font-size: 10px; font-weight: 600;
+  padding: 6px 0; border: none; background: none; transition: color .2s; letter-spacing: .02em;
+  text-transform: uppercase;
 }
-.nav-item.active { color: var(--p1l); }
-.nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.nav-item.active svg { stroke: var(--p1l); }
+.nav-item.active { color: var(--violet-l); }
+.nav-item svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; }
+.nav-item.active svg { transform: translateY(-1px); }
+.nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--violet); opacity: 0; transition: opacity .2s; }
+.nav-item.active .nav-dot { opacity: 1; }
 
-/* HEADER */
-.page-header { margin-bottom: 24px; }
-.page-header h1 { font-size: 22px; font-weight: 600; color: var(--text); }
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+.page-header { margin-bottom: 24px; padding-top: 8px; }
+.page-header-row { display: flex; align-items: center; justify-content: space-between; }
+.page-header h1 { font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
 .page-header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-/* CARDS */
+/* ============================================================
+   CARDS
+   ============================================================ */
 .card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: border-color .2s, box-shadow .2s;
 }
+.card:hover { border-color: var(--border2); }
 .card-sm { padding: 12px 14px; margin-bottom: 8px; }
-
-/* PHASE PILLS */
-.phase-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 600; padding: 4px 10px;
-  border-radius: 99px; letter-spacing: .03em;
+.card-glass {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border2);
 }
-.phase-1 { background: var(--p1bg); color: var(--p1l); }
-.phase-2 { background: var(--p2bg); color: var(--p2); }
-.phase-3 { background: var(--p3bg); color: var(--p3); }
+[data-theme="light"] .card-glass { background: rgba(255,255,255,0.7); }
 
-/* PROGRESS */
-.progress-wrap { height: 5px; background: var(--surface3); border-radius: 99px; overflow: hidden; margin: 8px 0; }
-.progress-fill { height: 100%; border-radius: 99px; transition: width .5s cubic-bezier(.4,0,.2,1); }
-.fill-p1 { background: var(--p1); }
-.fill-p2 { background: var(--p2); }
-.fill-p3 { background: var(--p3); }
+/* ============================================================
+   GRADIENT ACCENT CARDS
+   ============================================================ */
+.card-gradient-violet { background: linear-gradient(135deg, rgba(124,111,255,0.12) 0%, rgba(124,111,255,0.04) 100%); border-color: rgba(124,111,255,0.2); }
+.card-gradient-mint { background: linear-gradient(135deg, rgba(0,229,184,0.1) 0%, rgba(0,229,184,0.03) 100%); border-color: rgba(0,229,184,0.18); }
+.card-gradient-amber { background: linear-gradient(135deg, rgba(255,181,71,0.1) 0%, rgba(255,181,71,0.03) 100%); border-color: rgba(255,181,71,0.18); }
 
-/* STATS ROW */
-.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 20px; }
-.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
-.stat-val { font-size: 22px; font-weight: 600; color: var(--text); }
-.stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+/* ============================================================
+   SECTION LABEL
+   ============================================================ */
+.sec-label {
+  font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: .12em;
+  text-transform: uppercase; margin: 22px 0 10px; display: flex; align-items: center; gap: 8px;
+}
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
 
-/* TASK ITEM */
-.task-item {
-  display: flex; align-items: flex-start; gap: 12px;
+/* ============================================================
+   STATS GRID
+   ============================================================ */
+.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 20px; }
+.stat-card {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px;
-  cursor: pointer; transition: all .15s;
+  border-radius: var(--radius-sm); padding: 14px 10px; text-align: center;
+  transition: all .2s; cursor: default;
 }
-.task-item:hover { border-color: var(--border2); }
-.task-item.done { opacity: .5; }
+.stat-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+.stat-val { font-size: 22px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.stat-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.stat-icon { font-size: 16px; margin-bottom: 4px; }
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+.progress-wrap { height: 5px; background: var(--surface3); border-radius: 99px; overflow: hidden; margin: 8px 0; position: relative; }
+.progress-fill { height: 100%; border-radius: 99px; transition: width .6s cubic-bezier(.4,0,.2,1); position: relative; }
+.progress-fill::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); animation: shimmer 2s infinite; }
+@keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+.fill-violet { background: linear-gradient(90deg, var(--violet), var(--violet-l)); }
+.fill-mint { background: linear-gradient(90deg, var(--mint), var(--mint-l)); }
+.fill-amber { background: linear-gradient(90deg, var(--amber), #ffcc66); }
+.fill-rose { background: linear-gradient(90deg, var(--rose), #ff9eb5); }
+
+/* ============================================================
+   PHASE PILLS
+   ============================================================ */
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 4px 11px;
+  border-radius: 99px; letter-spacing: .04em;
+}
+.pill-violet { background: var(--violet-bg); color: var(--violet-l); border: 1px solid rgba(124,111,255,0.2); }
+.pill-mint { background: var(--mint-bg); color: var(--mint); border: 1px solid rgba(0,229,184,0.2); }
+.pill-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(255,181,71,0.2); }
+.pill-rose { background: var(--rose-bg); color: var(--rose); border: 1px solid rgba(255,107,138,0.2); }
+.pill-sky { background: var(--sky-bg); color: var(--sky); border: 1px solid rgba(90,173,255,0.2); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; border: none; cursor: pointer;
+  transition: all .15s; white-space: nowrap;
+}
+.btn-primary { background: var(--violet); color: #fff; }
+.btn-primary:hover { background: var(--violet-l); transform: translateY(-1px); box-shadow: var(--glow-violet); }
+.btn-secondary { background: var(--surface2); color: var(--text2); border: 1px solid var(--border2); }
+.btn-secondary:hover { border-color: var(--border3); }
+.btn-danger { background: var(--rose-bg); color: var(--rose); border: 1px solid rgba(255,107,138,0.2); }
+.btn-ghost { background: none; color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--border2); color: var(--text2); }
+.btn-sm { padding: 6px 12px; font-size: 12px; border-radius: var(--radius-xs); }
+.btn-icon { width: 36px; height: 36px; padding: 0; border-radius: 10px; justify-content: center; }
+
+/* ============================================================
+   INPUTS
+   ============================================================ */
+.input {
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  color: var(--text); font-size: 14px; outline: none;
+  transition: border-color .15s, box-shadow .15s; width: 100%;
+}
+.input:focus { border-color: var(--violet); box-shadow: 0 0 0 3px var(--violet-bg); }
+.input::placeholder { color: var(--dim); }
+textarea.input { resize: none; min-height: 80px; line-height: 1.6; }
+select.input { cursor: pointer; }
+
+/* ============================================================
+   TASK ITEMS
+   ============================================================ */
+.task-item {
+  display: flex; align-items: flex-start; gap: 11px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 7px;
+  cursor: pointer; transition: all .15s; user-select: none;
+}
+.task-item:hover { border-color: var(--border2); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.task-item.done { opacity: .55; }
 .task-item.done .task-name { text-decoration: line-through; color: var(--muted); }
+.task-item.priority-high { border-right: 3px solid var(--rose); }
+.task-item.priority-medium { border-right: 3px solid var(--amber); }
+.task-item.priority-low { border-right: 3px solid var(--mint); }
+
 .task-check {
   width: 20px; height: 20px; min-width: 20px; border-radius: 6px;
   border: 1.5px solid var(--dim); display: flex; align-items: center;
   justify-content: center; margin-top: 1px; transition: all .2s;
 }
-.task-item.done .task-check { background: var(--p2); border-color: var(--p2); }
-.task-check svg { width: 12px; height: 12px; stroke: #000; stroke-width: 2.5; display: none; }
-.task-item.done .task-check svg { display: block; }
-.task-name { font-size: 14px; color: var(--text); line-height: 1.4; }
-.task-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
-.task-badge { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; margin-right: 6px; }
+.task-item.done .task-check { background: var(--mint); border-color: var(--mint); }
+.task-check-icon { width: 11px; height: 11px; stroke: #000; stroke-width: 3; display: none; fill: none; }
+.task-item.done .task-check-icon { display: block; }
 
-/* DAY SELECTOR */
-.day-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; scrollbar-width: none; }
+.task-name { font-size: 14px; color: var(--text); line-height: 1.4; }
+.task-meta { font-size: 11px; color: var(--muted); margin-top: 4px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+/* ============================================================
+   HABIT TRACKER
+   ============================================================ */
+.habit-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.habit-row:last-child { border-bottom: none; }
+.habit-label { min-width: 90px; font-size: 12px; color: var(--muted); font-weight: 500; }
+.habit-dots { display: flex; gap: 5px; flex: 1; }
+.habit-dot {
+  width: 16px; height: 16px; border-radius: 5px;
+  background: var(--surface3); cursor: pointer; border: none;
+  transition: all .15s; position: relative; overflow: hidden;
+}
+.habit-dot:hover { transform: scale(1.1); }
+.habit-dot.on { background: var(--mint); }
+.habit-dot.on::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent); }
+.habit-count { font-size: 11px; color: var(--muted); min-width: 30px; text-align: left; font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   DAY SELECTOR
+   ============================================================ */
+.day-scroll { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; scrollbar-width: none; }
 .day-scroll::-webkit-scrollbar { display: none; }
 .day-btn {
-  flex-shrink: 0; width: 52px; padding: 8px 4px;
+  flex-shrink: 0; width: 54px; padding: 9px 4px;
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; cursor: pointer; text-align: center;
+  border-radius: 12px; cursor: pointer; text-align: center;
   transition: all .15s; color: var(--muted); font-family: var(--font);
 }
 .day-btn:hover { border-color: var(--border2); }
-.day-btn.active { background: var(--p1bg); border-color: var(--p1); color: var(--p1l); }
-.day-btn.completed { border-color: var(--p2); }
-.day-label { font-size: 11px; font-weight: 600; }
-.day-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--p2); margin: 4px auto 0; display: none; }
+.day-btn.active { background: var(--violet-bg); border-color: var(--violet); color: var(--violet-l); }
+.day-btn.completed { border-color: var(--mint); }
+.day-label { font-size: 11px; font-weight: 700; letter-spacing: .03em; }
+.day-num { font-size: 16px; font-weight: 700; margin: 2px 0; font-variant-numeric: tabular-nums; }
+.day-dot-wrap { height: 5px; display: flex; justify-content: center; align-items: center; }
+.day-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--mint); display: none; }
 .day-btn.completed .day-dot { display: block; }
 
-/* SECTION LABEL */
-.sec-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin: 20px 0 10px; }
-
-/* HABIT TRACKER */
-.habit-grid { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; }
-.habit-dots { display: flex; gap: 5px; }
-.habit-dot { width: 14px; height: 14px; border-radius: 4px; background: var(--surface3); cursor: pointer; transition: all .15s; border: none; }
-.habit-dot.on { background: var(--p2); }
-
-/* ADD TASK */
-.add-task-row { display: flex; gap: 8px; margin-bottom: 16px; }
-.add-task-row input {
-  flex: 1; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text);
-  font-family: var(--font); font-size: 14px; outline: none;
-  transition: border-color .15s;
+/* ============================================================
+   DOMAIN CHIPS
+   ============================================================ */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.chip {
+  font-size: 12px; padding: 5px 13px; border-radius: 99px;
+  border: 1px solid var(--border2); background: var(--surface);
+  color: var(--muted); cursor: pointer; transition: all .15s;
+  font-weight: 600; letter-spacing: .02em;
 }
-.add-task-row input:focus { border-color: var(--p1); }
-.add-task-row input::placeholder { color: var(--dim); }
-.btn-add {
-  background: var(--p1); color: #fff; border: none;
-  border-radius: var(--radius-sm); padding: 10px 16px; font-size: 14px;
-  font-family: var(--font); cursor: pointer; font-weight: 500; transition: opacity .15s;
-  white-space: nowrap;
-}
-.btn-add:hover { opacity: .85; }
+.chip.active { background: var(--violet-bg); border-color: var(--violet); color: var(--violet-l); }
+.chip:hover:not(.active) { border-color: var(--border3); color: var(--text2); }
 
-/* BOOK CARD */
-.book-item { display: flex; gap: 12px; align-items: flex-start; }
-.book-spine { width: 4px; border-radius: 99px; align-self: stretch; min-height: 40px; flex-shrink: 0; }
-.book-title { font-size: 14px; font-weight: 500; color: var(--text); }
-.book-author { font-size: 12px; color: var(--muted); }
-.book-phase { font-size: 11px; color: var(--muted); margin-top: 4px; }
-
-/* WEEKLY REVIEW */
-.review-q { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-.review-input {
-  width: 100%; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 10px 12px; color: var(--text);
-  font-family: var(--font); font-size: 13px; resize: none; outline: none;
-  transition: border-color .15s; min-height: 70px;
-}
-.review-input:focus { border-color: var(--p1); }
-
-/* TOAST */
-.toast {
-  position: fixed; bottom: calc(var(--nav-h) + var(--safe-bottom) + 12px);
-  left: 50%; transform: translateX(-50%) translateY(20px);
-  background: var(--surface3); color: var(--text); padding: 10px 20px;
-  border-radius: 99px; font-size: 13px; opacity: 0; transition: all .3s;
-  pointer-events: none; white-space: nowrap; z-index: 200;
-  border: 1px solid var(--border2);
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* MIT */
+/* ============================================================
+   MIT (Most Important Tasks)
+   ============================================================ */
 .mit-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .mit-item:last-child { border-bottom: none; }
-.mit-num { font-size: 13px; font-weight: 700; color: var(--p1l); min-width: 20px; }
+.mit-num { font-size: 13px; font-weight: 700; color: var(--violet-l); min-width: 22px; font-family: var(--font-mono); }
 
-/* ANIMATIONS */
-@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-.page.active > * { animation: fadeUp .3s ease both; }
-.page.active > *:nth-child(2) { animation-delay: .05s; }
-.page.active > *:nth-child(3) { animation-delay: .1s; }
-.page.active > *:nth-child(4) { animation-delay: .15s; }
+/* ============================================================
+   WEEKLY REVIEW
+   ============================================================ */
+.review-q { font-size: 13px; color: var(--muted); margin-bottom: 6px; margin-top: 14px; font-weight: 500; }
 
-/* PHASE HEADER */
-.phase-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.phase-months { font-size: 12px; color: var(--muted); }
+/* ============================================================
+   TOAST NOTIFICATIONS
+   ============================================================ */
+.toast-container { position: fixed; bottom: calc(var(--nav-h) + var(--safe-bottom) + 12px); left: 50%; transform: translateX(-50%); z-index: 500; display: flex; flex-direction: column-reverse; gap: 8px; align-items: center; pointer-events: none; }
+.toast {
+  background: var(--surface3); color: var(--text); padding: 10px 20px;
+  border-radius: 99px; font-size: 13px; font-weight: 500;
+  border: 1px solid var(--border2); white-space: nowrap;
+  transform: translateY(20px) scale(.9); opacity: 0;
+  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: var(--shadow);
+}
+.toast.show { transform: translateY(0) scale(1); opacity: 1; }
+.toast.success { border-color: rgba(0,229,184,0.3); background: rgba(0,229,184,0.1); color: var(--mint); }
+.toast.error { border-color: rgba(255,107,138,0.3); background: rgba(255,107,138,0.1); color: var(--rose); }
+.toast.warn { border-color: rgba(255,181,71,0.3); background: rgba(255,181,71,0.1); color: var(--amber); }
 
-/* EMPTY STATE */
-.empty { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 13px; }
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px); z-index: 400;
+  display: none; align-items: flex-end; justify-content: center;
+}
+@media(min-width:640px) { .modal-overlay { align-items: center; } }
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 24px 24px 0 0; padding: 24px; width: 100%; max-width: 520px;
+  max-height: 85vh; overflow-y: auto;
+  animation: slideUp .3s cubic-bezier(.34,1.56,.64,1);
+}
+@media(min-width:640px) { .modal-box { border-radius: 24px; max-height: 80vh; } }
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.modal-title { font-size: 18px; font-weight: 700; }
+.modal-close { background: var(--surface2); border: 1px solid var(--border2); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); font-size: 16px; transition: all .15s; }
+.modal-close:hover { color: var(--text); border-color: var(--border3); }
 
-/* STREAK */
-.streak-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--p3bg); color: var(--p3); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 99px; }
+/* ============================================================
+   MINI CHART (SVG sparkline)
+   ============================================================ */
+.chart-wrap { position: relative; }
+.chart-label { font-size: 10px; color: var(--muted); }
 
-/* SWITCH */
-.domain-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-.chip { font-size: 12px; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: all .15s; font-family: var(--font); }
-.chip.active { background: var(--p1bg); border-color: var(--p1); color: var(--p1l); }
+/* ============================================================
+   POINTS / XP BADGE
+   ============================================================ */
+.xp-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--amber-bg); color: var(--amber);
+  font-size: 12px; font-weight: 700; padding: 4px 12px;
+  border-radius: 99px; border: 1px solid rgba(255,181,71,0.2);
+  font-family: var(--font-mono);
+}
+.streak-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--rose-bg); color: var(--rose);
+  font-size: 12px; font-weight: 700; padding: 4px 12px;
+  border-radius: 99px; border: 1px solid rgba(255,107,138,0.2);
+}
+
+/* ============================================================
+   LEVEL BADGE
+   ============================================================ */
+.level-ring {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: conic-gradient(var(--violet) 0%, var(--violet) var(--pct,0%), var(--surface3) var(--pct,0%));
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.level-inner { width: 50px; height: 50px; background: var(--surface); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.level-num { font-size: 16px; font-weight: 700; color: var(--violet-l); line-height: 1; font-family: var(--font-mono); }
+.level-txt { font-size: 8px; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+.search-wrap { position: relative; margin-bottom: 16px; }
+.search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--dim); pointer-events: none; }
+.search-wrap .input { padding-right: 38px; }
+
+/* ============================================================
+   SWITCH / TOGGLE
+   ============================================================ */
+.toggle { position: relative; width: 44px; height: 24px; cursor: pointer; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-track { position: absolute; inset: 0; background: var(--surface3); border-radius: 99px; transition: background .2s; border: 1px solid var(--border2); }
+.toggle input:checked + .toggle-track { background: var(--violet); border-color: var(--violet); }
+.toggle-thumb { position: absolute; top: 3px; right: 3px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: transform .2s; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.toggle input:checked + .toggle-track + .toggle-thumb { transform: translateX(-20px); }
+
+/* ============================================================
+   GOAL CARD
+   ============================================================ */
+.goal-card { display: flex; gap: 12px; align-items: flex-start; }
+.goal-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.goal-info { flex: 1; }
+.goal-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.goal-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.goal-pct { font-size: 20px; font-weight: 700; color: var(--text); font-family: var(--font-mono); }
+
+/* ============================================================
+   BOOK ITEM
+   ============================================================ */
+.book-item { display: flex; gap: 12px; align-items: flex-start; }
+.book-spine { width: 4px; min-height: 44px; border-radius: 99px; flex-shrink: 0; align-self: stretch; }
+.book-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.book-author { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.book-phase { font-size: 11px; color: var(--dim); margin-top: 4px; }
+
+/* ============================================================
+   PHASE HEADER
+   ============================================================ */
+.phase-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.phase-months { font-size: 11px; color: var(--muted); font-weight: 600; }
+.phase-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty { text-align: center; padding: 36px 16px; color: var(--muted); font-size: 13px; }
+.empty-icon { font-size: 36px; margin-bottom: 8px; opacity: .5; }
+
+/* ============================================================
+   LOADING SKELETON
+   ============================================================ */
+.skeleton { background: var(--surface2); border-radius: 6px; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+
+/* ============================================================
+   SETTINGS ROWS
+   ============================================================ */
+.setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.setting-row:last-child { border-bottom: none; }
+.setting-label { font-size: 14px; color: var(--text); font-weight: 500; }
+.setting-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ============================================================
+   AUTOSAVE INDICATOR
+   ============================================================ */
+.autosave-indicator {
+  position: fixed; top: 12px; left: 16px; z-index: 300;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--muted); font-weight: 500;
+  opacity: 0; transition: opacity .3s;
+  pointer-events: none;
+}
+.autosave-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mint); }
+
+/* ============================================================
+   KEYBOARD SHORTCUT BADGE
+   ============================================================ */
+.kbd { font-size: 10px; background: var(--surface3); border: 1px solid var(--border2); border-radius: 4px; padding: 2px 5px; font-family: var(--font-mono); color: var(--muted); }
+
+/* ============================================================
+   CHART BARS
+   ============================================================ */
+.bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; margin: 12px 0 6px; }
+.bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+.bar { width: 100%; border-radius: 4px 4px 0 0; min-height: 3px; background: var(--violet-bg); position: relative; overflow: hidden; transition: height .6s cubic-bezier(.4,0,.2,1); }
+.bar.active-bar { background: var(--violet); }
+.bar::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%); }
+.bar-day-label { font-size: 9px; color: var(--muted); font-weight: 700; letter-spacing: .05em; }
+.bar-val { font-size: 9px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   CIRCLE PROGRESS
+   ============================================================ */
+.circle-progress { position: relative; display: inline-block; }
+.circle-progress svg { transform: rotate(-90deg); }
+.circle-progress-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+/* ============================================================
+   NOTIFICATION BANNER
+   ============================================================ */
+.notif-banner {
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 10px;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.notif-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+.notif-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+.notif-close { margin-right: auto; background: none; border: none; color: var(--dim); font-size: 16px; cursor: pointer; padding: 0; flex-shrink: 0; }
+
+/* ============================================================
+   FADE/SLIDE ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popIn { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.page.active .card { animation: fadeUp .35s ease both; }
+.page.active .card:nth-child(2) { animation-delay: .05s; }
+.page.active .card:nth-child(3) { animation-delay: .1s; }
+.page.active .card:nth-child(4) { animation-delay: .15s; }
+.page.active .card:nth-child(5) { animation-delay: .2s; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 380px) {
+  .stats-grid { grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .stat-val { font-size: 18px; }
+  .stat-lbl { font-size: 9px; }
+  .page-header h1 { font-size: 20px; }
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print {
+  .bottom-nav, .toast-container, .modal-overlay, .autosave-indicator { display: none !important; }
+  .page { padding: 20px !important; }
+}
+
+/* ============================================================
+   APP LOGO IN HEADER
+   ============================================================ */
+.app-logo { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: var(--violet-l); letter-spacing: -.03em; }
+.app-logo span { color: var(--mint); }
+
+/* ============================================================
+   STREAK FLAME ANIMATION
+   ============================================================ */
+@keyframes flicker { 0%,100% { transform: scaleY(1) rotate(-2deg); } 50% { transform: scaleY(1.05) rotate(2deg); } }
+.streak-flame { display: inline-block; animation: flicker 1.2s ease-in-out infinite; }
+
+/* ============================================================
+   FOCUS MODE
+   ============================================================ */
+.focus-overlay {
+  position: fixed; inset: 0; background: var(--bg);
+  z-index: 600; display: none; flex-direction: column;
+  align-items: center; justify-content: center; gap: 24px;
+}
+.focus-overlay.show { display: flex; }
+.focus-timer { font-size: 72px; font-weight: 700; font-family: var(--font-mono); color: var(--text); letter-spacing: -.04em; }
+.focus-label { font-size: 14px; color: var(--muted); }
+
+/* ============================================================
+   TAG COLORS
+   ============================================================ */
+.tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+.tag-study { background: rgba(124,111,255,0.15); color: var(--violet-l); }
+.tag-ccna { background: rgba(0,229,184,0.12); color: var(--mint); }
+.tag-youtube { background: rgba(255,107,138,0.12); color: var(--rose); }
+.tag-sport { background: rgba(255,181,71,0.12); color: var(--amber); }
+.tag-ecom { background: rgba(90,173,255,0.12); color: var(--sky); }
+.tag-read { background: rgba(253,121,168,0.12); color: #fd79a8; }
+
+/* ============================================================
+   FLOATING ACTION BUTTON
+   ============================================================ */
+.fab {
+  position: fixed; left: 20px; bottom: calc(var(--nav-h) + var(--safe-bottom) + 16px);
+  width: 52px; height: 52px; border-radius: 16px;
+  background: var(--violet); color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--glow-violet), var(--shadow); cursor: pointer;
+  transition: all .2s; z-index: 150; font-size: 24px;
+}
+.fab:hover { transform: translateY(-2px) scale(1.05); }
+.fab:active { transform: translateY(0) scale(.97); }
+
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+/* ============================================================
+   FOCUS RING for accessibility
+   ============================================================ */
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; border-radius: 4px; }
+
+/* ============================================================
+   OFFLINE BANNER
+   ============================================================ */
+.offline-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 700;
+  background: var(--amber); color: #000; text-align: center;
+  padding: 8px 16px; font-size: 12px; font-weight: 700;
+  transform: translateY(-100%); transition: transform .3s;
+}
+.offline-banner.show { transform: translateY(0); }
 </style>
 </head>
 <body>
+
+<!-- OFFLINE INDICATOR -->
+<div class="offline-banner" id="offline-banner">📡 لا يوجد اتصال بالإنترنت — يعمل في وضع Offline</div>
+
+<!-- AUTOSAVE INDICATOR -->
+<div class="autosave-indicator" id="autosave-ind">
+  <div class="autosave-dot"></div>
+  <span>تم الحفظ</span>
+</div>
+
+<!-- MAIN APP -->
 <div id="app">
 
-<!-- PAGE: HOME -->
+<!-- ══════════════════════════════════════════════
+     PAGE: HOME / DASHBOARD
+══════════════════════════════════════════════ -->
 <div class="page active" id="page-home">
   <div class="page-header">
-    <h1 id="greeting">صباح الخير 👋</h1>
-    <p id="today-date"></p>
+    <div class="page-header-row">
+      <div>
+        <div class="app-logo">lm<span>kabdo</span></div>
+        <div id="today-date" style="font-size:12px;color:var(--muted);margin-top:3px;"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="xp-badge" id="xp-badge">⚡ 0 XP</div>
+        <button class="btn-icon btn-secondary" onclick="openFocus()" title="وضع التركيز (F)" aria-label="وضع التركيز">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </button>
+        <button class="btn-icon btn-secondary" onclick="showPage('settings')" aria-label="الإعدادات">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div style="margin-top:14px;font-size:22px;font-weight:700;" id="greeting">صباح الخير 👋</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:3px;" id="motivational-quote"></div>
   </div>
 
-  <div class="stats-row">
+  <!-- STATS -->
+  <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-val" id="stat-done">0</div>
-      <div class="stat-lbl">مكتملة</div>
+      <div class="stat-icon">✅</div>
+      <div class="stat-val" id="stat-done">0/0</div>
+      <div class="stat-lbl">مهام اليوم</div>
     </div>
     <div class="stat-card">
+      <div class="stat-icon"><span class="streak-flame">🔥</span></div>
       <div class="stat-val" id="stat-streak">0</div>
       <div class="stat-lbl">أيام متواصلة</div>
     </div>
     <div class="stat-card">
+      <div class="stat-icon">📊</div>
       <div class="stat-val" id="stat-week-pct">0%</div>
       <div class="stat-lbl">هذا الأسبوع</div>
     </div>
   </div>
 
-  <div class="sec-label">مهام اليوم الأساسية (MIT)</div>
+  <!-- WEEKLY BAR CHART -->
+  <div class="card card-gradient-violet" style="margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <span style="font-size:13px;font-weight:600">تقدم الأسبوع</span>
+      <span id="week-total-badge" class="pill pill-violet">0 مهمة</span>
+    </div>
+    <div class="bar-chart" id="week-bar-chart"></div>
+  </div>
+
+  <!-- MIT -->
+  <div class="sec-label">المهام الأساسية اليوم (MIT)</div>
   <div class="card">
     <div id="mit-list"></div>
-    <div style="margin-top:12px; display:flex; gap:8px;">
-      <input class="add-task-row" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;" id="mit-input" placeholder="أضف مهمة أساسية...">
-      <button class="btn-add" onclick="addMIT()" style="padding:9px 14px;font-size:13px;">+</button>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <input class="input" id="mit-input" placeholder="أضف مهمة أساسية (أقصى 3)..." style="font-size:13px;">
+      <button class="btn btn-primary btn-sm" onclick="addMIT()">+ إضافة</button>
     </div>
   </div>
 
-  <div class="sec-label">التقدم الأسبوعي</div>
+  <!-- HABIT TRACKER -->
+  <div class="sec-label">تتبع العادات الأسبوعي</div>
   <div class="card">
     <div id="habit-list"></div>
   </div>
 
+  <!-- CURRENT PHASE -->
   <div class="sec-label">المرحلة الحالية</div>
-  <div class="card" id="current-phase-card"></div>
+  <div class="card card-gradient-violet" id="current-phase-card"></div>
+
+  <!-- LEVEL & XP -->
+  <div class="sec-label">المستوى والنقاط</div>
+  <div class="card" id="level-card"></div>
 </div>
 
-<!-- PAGE: TASKS -->
+<!-- ══════════════════════════════════════════════
+     PAGE: TASKS
+══════════════════════════════════════════════ -->
 <div class="page" id="page-tasks">
   <div class="page-header">
-    <h1>المهام اليومية</h1>
-    <p>تتبع كل مهام البرنامج</p>
+    <div class="page-header-row">
+      <div>
+        <h1>المهام</h1>
+        <p id="tasks-header-sub">اليوم: 0 مهمة</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openAddTask()">+ مهمة جديدة</button>
+    </div>
   </div>
 
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <span class="search-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </span>
+    <input class="input" id="task-search" placeholder="ابحث في المهام..." oninput="renderTaskList()">
+  </div>
+
+  <!-- DAY SELECTOR -->
   <div class="day-scroll" id="day-scroll"></div>
 
-  <div class="domain-chips" id="domain-chips">
+  <!-- FILTER CHIPS -->
+  <div class="chips" id="domain-chips">
     <button class="chip active" data-domain="all">الكل</button>
     <button class="chip" data-domain="study">دراسة</button>
     <button class="chip" data-domain="ccna">CCNA</button>
@@ -292,432 +768,445 @@ body { display: flex; flex-direction: column; }
     <button class="chip" data-domain="read">قراءة</button>
   </div>
 
-  <div class="add-task-row">
-    <input id="task-input" placeholder="أضف مهمة جديدة...">
-    <select id="task-domain" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 10px;color:var(--muted);font-family:var(--font);font-size:13px;outline:none;">
-      <option value="study">دراسة</option>
-      <option value="ccna">CCNA</option>
-      <option value="youtube">يوتيوب</option>
-      <option value="sport">رياضة</option>
-      <option value="ecom">تجارة</option>
-      <option value="read">قراءة</option>
-    </select>
-    <button class="btn-add" onclick="addTask()">إضافة</button>
+  <!-- SORT CONTROLS -->
+  <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;">
+    <span style="font-size:12px;color:var(--muted)">ترتيب:</span>
+    <button class="chip active" id="sort-default" onclick="setSort('default')">الافتراضي</button>
+    <button class="chip" id="sort-priority" onclick="setSort('priority')">الأولوية</button>
+    <button class="chip" id="sort-done" onclick="setSort('done')">المكتملة</button>
   </div>
 
+  <!-- TASK LIST -->
   <div id="task-list"></div>
 </div>
 
-<!-- PAGE: PROGRAM -->
+<!-- ══════════════════════════════════════════════
+     PAGE: GOALS
+══════════════════════════════════════════════ -->
+<div class="page" id="page-goals">
+  <div class="page-header">
+    <div class="page-header-row">
+      <div>
+        <h1>الأهداف</h1>
+        <p>يومية • أسبوعية • شهرية</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openGoalModal()">+ هدف جديد</button>
+    </div>
+  </div>
+
+  <div class="chips">
+    <button class="chip active" data-gperiod="all" onclick="filterGoals(this,'all')">الكل</button>
+    <button class="chip" data-gperiod="daily" onclick="filterGoals(this,'daily')">يومية</button>
+    <button class="chip" data-gperiod="weekly" onclick="filterGoals(this,'weekly')">أسبوعية</button>
+    <button class="chip" data-gperiod="monthly" onclick="filterGoals(this,'monthly')">شهرية</button>
+  </div>
+
+  <div id="goals-list"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: PROGRAM
+══════════════════════════════════════════════ -->
 <div class="page" id="page-program">
   <div class="page-header">
     <h1>خطة الـ 6 أشهر</h1>
-    <p>مراحل البرنامج والأهداف</p>
+    <p>مراحل البرنامج والكتب</p>
   </div>
 
-  <div class="card" style="margin-bottom:12px">
-    <div class="phase-header">
-      <span class="phase-pill phase-1">المرحلة 1</span>
-      <span class="phase-months">شهر 1–2</span>
+  <div class="card card-gradient-violet" style="margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="level-ring" id="prog-ring">
+        <div class="level-inner">
+          <div class="level-num" id="prog-ring-num">0%</div>
+          <div class="level-txt">مكتمل</div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:700" id="prog-phase-name">—</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:3px" id="prog-week-txt">—</div>
+        <div class="progress-wrap" style="margin-top:10px"><div class="progress-fill fill-violet" id="prog-overall" style="width:0%"></div></div>
+      </div>
     </div>
-    <div style="font-size:14px;font-weight:500;margin:8px 0 4px">الأساس والبناء</div>
+  </div>
+
+  <div class="card" style="margin-bottom:10px">
+    <div class="phase-header"><span class="pill pill-violet">المرحلة 1</span><span class="phase-months">شهر 1–2</span></div>
+    <div class="phase-name">الأساس والبناء</div>
     <p style="font-size:13px;color:var(--muted);line-height:1.6">بناء العادات الأساسية، تعلم DaVinci، مختبرات CCNA الأولى، وإنشاء فيديو تجريبي.</p>
-    <div class="progress-wrap"><div class="progress-fill fill-p1" id="prog1" style="width:0%"></div></div>
+    <div class="progress-wrap"><div class="progress-fill fill-violet" id="prog1" style="width:0%"></div></div>
     <div style="font-size:12px;color:var(--muted)" id="prog1-txt">0 من 8 أسابيع</div>
   </div>
 
-  <div class="card" style="margin-bottom:12px">
-    <div class="phase-header">
-      <span class="phase-pill phase-2">المرحلة 2</span>
-      <span class="phase-months">شهر 3–4</span>
-    </div>
-    <div style="font-size:14px;font-weight:500;margin:8px 0 4px">التسريع والنمو</div>
+  <div class="card" style="margin-bottom:10px">
+    <div class="phase-header"><span class="pill pill-mint">المرحلة 2</span><span class="phase-months">شهر 3–4</span></div>
+    <div class="phase-name">التسريع والنمو</div>
     <p style="font-size:13px;color:var(--muted);line-height:1.6">نشر أول فيديو، التعمق في VLANs و STP، البدء في استكشاف التجارة الإلكترونية.</p>
-    <div class="progress-wrap"><div class="progress-fill fill-p2" id="prog2" style="width:0%"></div></div>
+    <div class="progress-wrap"><div class="progress-fill fill-mint" id="prog2" style="width:0%"></div></div>
     <div style="font-size:12px;color:var(--muted)" id="prog2-txt">0 من 8 أسابيع</div>
   </div>
 
   <div class="card" style="margin-bottom:20px">
-    <div class="phase-header">
-      <span class="phase-pill phase-3">المرحلة 3</span>
-      <span class="phase-months">شهر 5–6</span>
-    </div>
-    <div style="font-size:14px;font-weight:500;margin:8px 0 4px">الإطلاق والتوسع</div>
+    <div class="phase-header"><span class="pill pill-amber">المرحلة 3</span><span class="phase-months">شهر 5–6</span></div>
+    <div class="phase-name">الإطلاق والتوسع</div>
     <p style="font-size:13px;color:var(--muted);line-height:1.6">التأهل لامتحان CCNA، إنتاج منتظم على اليوتيوب، واختبار أول منتج في التجارة الإلكترونية.</p>
-    <div class="progress-wrap"><div class="progress-fill fill-p3" id="prog3" style="width:0%"></div></div>
+    <div class="progress-wrap"><div class="progress-fill fill-amber" id="prog3" style="width:0%"></div></div>
     <div style="font-size:12px;color:var(--muted)" id="prog3-txt">0 من 8 أسابيع</div>
   </div>
 
   <div class="sec-label">قائمة الكتب</div>
-  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p1)"></div><div><div class="book-title">Atomic Habits</div><div class="book-author">James Clear</div><div class="book-phase">المرحلة 1 — الشهر الأول</div></div></div></div>
-  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p1l)"></div><div><div class="book-title">Deep Work</div><div class="book-author">Cal Newport</div><div class="book-phase">المرحلة 1 — الشهر الثاني</div></div></div></div>
-  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p2)"></div><div><div class="book-title">The One Thing</div><div class="book-author">Gary Keller</div><div class="book-phase">المرحلة 2 — الشهر الثالث</div></div></div></div>
-  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p2)"></div><div><div class="book-title">$100M Offers</div><div class="book-author">Alex Hormozi</div><div class="book-phase">المرحلة 2 — الشهر الرابع</div></div></div></div>
-  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p3)"></div><div><div class="book-title">Show Your Work</div><div class="book-author">Austin Kleon</div><div class="book-phase">المرحلة 3 — الشهر الخامس</div></div></div></div>
-  <div class="card card-sm" style="margin-bottom:8px"><div class="book-item"><div class="book-spine" style="background:var(--p3)"></div><div><div class="book-title">The Lean Startup</div><div class="book-author">Eric Ries</div><div class="book-phase">المرحلة 3 — الشهر السادس</div></div></div></div>
+  <div id="books-list"></div>
 </div>
 
-<!-- PAGE: REVIEW -->
+<!-- ══════════════════════════════════════════════
+     PAGE: REVIEW (Weekly)
+══════════════════════════════════════════════ -->
 <div class="page" id="page-review">
   <div class="page-header">
-    <h1>المراجعة الأسبوعية</h1>
-    <p>5 دقائق كل جمعة مساءً</p>
+    <div class="page-header-row">
+      <div>
+        <h1>المراجعة الأسبوعية</h1>
+        <p id="review-week-label">الأسبوع الحالي</p>
+      </div>
+      <span id="review-score-badge" class="pill pill-violet">0%</span>
+    </div>
   </div>
 
   <div class="card" style="margin-bottom:12px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <span style="font-size:14px;font-weight:500">تقييم الأسبوع</span>
-      <span id="review-score-badge" class="streak-badge">0%</span>
-    </div>
+    <div style="font-size:14px;font-weight:600;margin-bottom:14px">✅ تقييم الأسبوع</div>
     <div id="review-checks"></div>
   </div>
 
   <div class="sec-label">تأمل الأسبوع</div>
   <div class="card">
-    <div class="review-q">ما الذي أنجزته هذا الأسبوع فعلاً؟</div>
-    <textarea class="review-input" id="r1" placeholder="اكتب هنا..." onchange="saveReview()"></textarea>
-    <div class="review-q" style="margin-top:12px">ما الذي أعاقني أكثر من غيره؟</div>
-    <textarea class="review-input" id="r2" placeholder="اكتب هنا..." onchange="saveReview()"></textarea>
-    <div class="review-q" style="margin-top:12px">الشيء الواحد الذي سأركز عليه الأسبوع القادم:</div>
-    <textarea class="review-input" id="r3" placeholder="اكتب هنا..." style="min-height:50px" onchange="saveReview()"></textarea>
+    <div class="review-q">🏆 ما الذي أنجزته هذا الأسبوع فعلاً؟</div>
+    <textarea class="input" id="r1" placeholder="اكتب هنا..." oninput="autoSaveReview()"></textarea>
+    <div class="review-q">🚧 ما الذي أعاقني أكثر من غيره؟</div>
+    <textarea class="input" id="r2" placeholder="اكتب هنا..." oninput="autoSaveReview()"></textarea>
+    <div class="review-q">🎯 الشيء الواحد الذي سأركز عليه الأسبوع القادم:</div>
+    <textarea class="input" id="r3" placeholder="اكتب هنا..." style="min-height:60px" oninput="autoSaveReview()"></textarea>
+  </div>
+
+  <!-- STATS SUMMARY FOR WEEK -->
+  <div class="sec-label">إحصاء الأسبوع</div>
+  <div class="card card-gradient-mint" id="week-stats-summary"></div>
+
+  <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+    <button class="btn btn-secondary" onclick="exportWeekReport()">📤 تصدير التقرير</button>
+    <button class="btn btn-ghost" onclick="shareReport()">🔗 مشاركة</button>
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════
+     PAGE: SETTINGS
+══════════════════════════════════════════════ -->
+<div class="page" id="page-settings">
+  <div class="page-header">
+    <h1>الإعدادات</h1>
+    <p>تخصيص lmkabdo</p>
+  </div>
+
+  <!-- THEME -->
+  <div class="sec-label">المظهر</div>
+  <div class="card">
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">الوضع المضيء</div>
+        <div class="setting-sub">تبديل Light / Dark</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="theme-toggle" onchange="toggleTheme(this.checked)">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+    <div class="setting-row">
+      <div class="setting-label">لون الثيم</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-icon" style="background:rgba(124,111,255,0.2);border:2px solid var(--violet);border-radius:50%" onclick="setAccent('violet')" title="بنفسجي"></button>
+        <button class="btn-icon" style="background:rgba(0,229,184,0.2);border:2px solid var(--mint);border-radius:50%" onclick="setAccent('mint')" title="أخضر"></button>
+        <button class="btn-icon" style="background:rgba(90,173,255,0.2);border:2px solid var(--sky);border-radius:50%" onclick="setAccent('sky')" title="أزرق"></button>
+        <button class="btn-icon" style="background:rgba(255,181,71,0.2);border:2px solid var(--amber);border-radius:50%" onclick="setAccent('amber')" title="ذهبي"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <div class="sec-label">الإشعارات</div>
+  <div class="card">
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">تذكير صباحي</div>
+        <div class="setting-sub">تذكير بمهام اليوم</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="notif-morning" onchange="saveSetting('notifMorning', this.checked)">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">مراجعة أسبوعية</div>
+        <div class="setting-sub">تذكير كل يوم جمعة</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="notif-weekly" onchange="saveSetting('notifWeekly', this.checked)">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+  </div>
+
+  <!-- DATA MANAGEMENT -->
+  <div class="sec-label">إدارة البيانات</div>
+  <div class="card">
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">تصدير البيانات</div>
+        <div class="setting-sub">نسخ احتياطي JSON</div>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="exportData()">📥 تصدير</button>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">استيراد البيانات</div>
+        <div class="setting-sub">استعادة نسخة احتياطية</div>
+      </div>
+      <label class="btn btn-secondary btn-sm" style="cursor:pointer">
+        📤 استيراد
+        <input type="file" accept=".json" style="display:none" onchange="importData(event)">
+      </label>
+    </div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label" style="color:var(--rose)">مسح كل البيانات</div>
+        <div class="setting-sub">لا يمكن التراجع</div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="confirmClearData()">🗑 مسح</button>
+    </div>
+  </div>
+
+  <!-- APP INFO -->
+  <div class="sec-label">عن التطبيق</div>
+  <div class="card">
+    <div style="text-align:center;padding:8px 0">
+      <div class="app-logo" style="font-size:24px;margin-bottom:6px">lm<span>kabdo</span></div>
+      <div style="font-size:12px;color:var(--muted)">الإصدار 2.0 — نظام تتبع شامل</div>
+      <div style="font-size:11px;color:var(--dim);margin-top:8px" id="data-size-info"></div>
+    </div>
+    <div class="divider"></div>
+    <div style="font-size:12px;color:var(--muted);text-align:center">
+      اختصارات لوحة المفاتيح:<br>
+      <span class="kbd">T</span> مهام &nbsp;
+      <span class="kbd">H</span> الرئيسية &nbsp;
+      <span class="kbd">F</span> تركيز &nbsp;
+      <span class="kbd">N</span> مهمة جديدة
+    </div>
+  </div>
+
+  <!-- RESET START DATE -->
+  <div class="card" style="margin-top:12px">
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">تاريخ بدء البرنامج</div>
+        <div class="setting-sub" id="start-date-display">—</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="resetStartDate()">إعادة ضبط</button>
+    </div>
+  </div>
 </div>
 
+</div><!-- /#app -->
+
 <!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <button class="nav-item active" data-page="home">
+<nav class="bottom-nav" role="navigation" aria-label="التنقل الرئيسي">
+  <button class="nav-item active" data-page="home" aria-label="الرئيسية">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <div class="nav-dot"></div>
     الرئيسية
   </button>
-  <button class="nav-item" data-page="tasks">
+  <button class="nav-item" data-page="tasks" aria-label="المهام">
     <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    <div class="nav-dot"></div>
     المهام
   </button>
-  <button class="nav-item" data-page="program">
+  <button class="nav-item" data-page="goals" aria-label="الأهداف">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    <div class="nav-dot"></div>
+    الأهداف
+  </button>
+  <button class="nav-item" data-page="program" aria-label="البرنامج">
     <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    <div class="nav-dot"></div>
     البرنامج
   </button>
-  <button class="nav-item" data-page="review">
+  <button class="nav-item" data-page="review" aria-label="المراجعة">
     <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    <div class="nav-dot"></div>
     المراجعة
   </button>
 </nav>
 
-<div class="toast" id="toast"></div>
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
 
-<script>
-// ===== STATE =====
-const STORE_KEY = 'prog6m_v1';
-function load() {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; }
-}
-function save(data) { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
-
-let state = load();
-if (!state.tasks) state.tasks = {};
-if (!state.mit) state.mit = [];
-if (!state.habits) state.habits = {};
-if (!state.review) state.review = {};
-if (!state.startDate) { state.startDate = new Date().toISOString().split('T')[0]; save(state); }
-
-// ===== UTILS =====
-const todayKey = () => new Date().toISOString().split('T')[0];
-const dayKeys = () => {
-  const days = [];
-  const now = new Date();
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    days.push(d.toISOString().split('T')[0]);
-  }
-  return days;
-};
-const dayNames = ['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
-const domainColors = { study:'#6c63ff', ccna:'#00d4a0', youtube:'#ff6b6b', sport:'#ff9f43', ecom:'#a29bfe', read:'#fd79a8' };
-const domainLabels = { study:'دراسة', ccna:'CCNA', youtube:'يوتيوب', sport:'رياضة', ecom:'تجارة', read:'قراءة' };
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
-}
-
-// ===== NAVIGATION =====
-let currentPage = 'home';
-let selectedDay = todayKey();
-let selectedDomain = 'all';
-
-document.querySelectorAll('.nav-item').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const page = btn.dataset.page;
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + page).classList.add('active');
-    currentPage = page;
-    if (page === 'tasks') renderTaskPage();
-    if (page === 'home') renderHome();
-    if (page === 'review') renderReview();
-    if (page === 'program') renderProgram();
-  });
-});
-
-// ===== HOME =====
-function renderHome() {
-  const now = new Date();
-  const hours = now.getHours();
-  const greet = hours < 12 ? 'صباح الخير' : hours < 17 ? 'مرحباً' : 'مساء الخير';
-  document.getElementById('greeting').textContent = greet + ' 👋';
-  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-  document.getElementById('today-date').textContent = `${days[now.getDay()]}، ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
-
-  const today = todayKey();
-  const todayTasks = state.tasks[today] || [];
-  const doneTasks = todayTasks.filter(t => t.done).length;
-  document.getElementById('stat-done').textContent = doneTasks + '/' + todayTasks.length;
-
-  // streak
-  let streak = 0;
-  const dk = dayKeys();
-  for (let i = dk.length - 1; i >= 0; i--) {
-    const ts = state.tasks[dk[i]] || [];
-    if (ts.length > 0 && ts.every(t => t.done)) streak++;
-    else if (dk[i] !== today) break;
-  }
-  document.getElementById('stat-streak').textContent = streak;
-
-  // week pct
-  let weekDone = 0, weekTotal = 0;
-  dayKeys().forEach(k => {
-    const ts = state.tasks[k] || [];
-    weekTotal += ts.length;
-    weekDone += ts.filter(t => t.done).length;
-  });
-  const pct = weekTotal > 0 ? Math.round(weekDone / weekTotal * 100) : 0;
-  document.getElementById('stat-week-pct').textContent = pct + '%';
-
-  // MIT
-  renderMIT();
-
-  // habits
-  renderHabits();
-
-  // phase card
-  const start = new Date(state.startDate);
-  const diff = Math.floor((now - start) / (1000*60*60*24*7));
-  const week = Math.min(diff + 1, 24);
-  let phase, pname, pbg;
-  if (week <= 8) { phase = 1; pname = 'الأساس والبناء'; pbg = 'phase-1'; }
-  else if (week <= 16) { phase = 2; pname = 'التسريع والنمو'; pbg = 'phase-2'; }
-  else { phase = 3; pname = 'الإطلاق والتوسع'; pbg = 'phase-3'; }
-  document.getElementById('current-phase-card').innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <span class="phase-pill ${pbg}">المرحلة ${phase}</span>
-      <span style="font-size:12px;color:var(--muted)">الأسبوع ${week} من 24</span>
+<!-- ══════════════════════════════════════════════
+     MODAL: ADD TASK
+══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-add-task" onclick="closeModal('modal-add-task')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">إضافة مهمة جديدة</div>
+      <button class="modal-close" onclick="closeModal('modal-add-task')">&times;</button>
     </div>
-    <div style="font-weight:500;margin-bottom:6px">${pname}</div>
-    <div class="progress-wrap"><div class="progress-fill fill-p${phase}" style="width:${Math.min(Math.round(week/24*100),100)}%"></div></div>
-    <div style="font-size:12px;color:var(--muted);margin-top:4px">${Math.min(Math.round(week/24*100),100)}% من البرنامج مكتمل</div>
-  `;
-}
-
-function renderMIT() {
-  const list = document.getElementById('mit-list');
-  const mits = state.mit || [];
-  if (mits.length === 0) {
-    list.innerHTML = '<div class="empty">لا توجد مهام أساسية اليوم بعد</div>';
-    return;
-  }
-  list.innerHTML = mits.map((m, i) => `
-    <div class="mit-item">
-      <span class="mit-num">${i+1}</span>
-      <div style="flex:1;font-size:14px;${m.done?'text-decoration:line-through;color:var(--muted)':''}">${m.text}</div>
-      <button onclick="toggleMIT(${i})" style="background:${m.done?'var(--p2bg)':'var(--surface3)'};border:none;border-radius:6px;padding:4px 10px;font-size:11px;color:${m.done?'var(--p2)':'var(--muted)'};cursor:pointer;font-family:var(--font)">${m.done?'مكتملة':'إنجاز'}</button>
-      <button onclick="deleteMIT(${i})" style="background:none;border:none;color:var(--dim);font-size:16px;cursor:pointer;padding:0 4px">×</button>
-    </div>
-  `).join('');
-}
-
-function addMIT() {
-  const inp = document.getElementById('mit-input');
-  const text = inp.value.trim();
-  if (!text) return;
-  if (!state.mit) state.mit = [];
-  if (state.mit.length >= 3) { showToast('أقصى 3 مهام أساسية يومياً'); return; }
-  state.mit.push({ text, done: false });
-  inp.value = '';
-  save(state);
-  renderMIT();
-  showToast('تمت الإضافة');
-}
-
-function toggleMIT(i) {
-  state.mit[i].done = !state.mit[i].done;
-  save(state);
-  renderMIT();
-}
-
-function deleteMIT(i) {
-  state.mit.splice(i, 1);
-  save(state);
-  renderMIT();
-}
-
-document.getElementById('mit-input').addEventListener('keydown', e => { if (e.key === 'Enter') addMIT(); });
-
-const HABITS = [
-  { id: 'ccna', label: 'CCNA / دراسة' },
-  { id: 'sport', label: 'رياضة' },
-  { id: 'read', label: 'قراءة' },
-  { id: 'youtube', label: 'يوتيوب' },
-];
-
-function renderHabits() {
-  const dk = dayKeys();
-  const el = document.getElementById('habit-list');
-  el.innerHTML = HABITS.map(h => {
-    const dots = dk.map((k, di) => {
-      const on = (state.habits[k] || {})[h.id];
-      return `<button class="habit-dot ${on?'on':''}" onclick="toggleHabit('${k}','${h.id}')" title="${dayNames[new Date(k).getDay()]}"></button>`;
-    }).join('');
-    const count = dk.filter(k => (state.habits[k] || {})[h.id]).length;
-    return `
-      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="min-width:80px;font-size:12px;color:var(--muted)">${h.label}</div>
-        <div style="display:flex;gap:5px;flex:1">${dots}</div>
-        <div style="font-size:12px;color:var(--muted);min-width:28px;text-align:left">${count}/7</div>
-      </div>
-    `;
-  }).join('');
-}
-
-function toggleHabit(day, id) {
-  if (!state.habits[day]) state.habits[day] = {};
-  state.habits[day][id] = !state.habits[day][id];
-  save(state);
-  renderHabits();
-}
-
-// ===== TASKS PAGE =====
-function renderTaskPage() {
-  renderDayScroll();
-  renderDomainChips();
-  renderTaskList();
-}
-
-function renderDayScroll() {
-  const dk = dayKeys();
-  const scroll = document.getElementById('day-scroll');
-  scroll.innerHTML = dk.map(k => {
-    const d = new Date(k);
-    const name = dayNames[d.getDay()];
-    const ts = state.tasks[k] || [];
-    const allDone = ts.length > 0 && ts.every(t => t.done);
-    return `<button class="day-btn ${k===selectedDay?'active':''} ${allDone?'completed':''}" onclick="selectDay('${k}')">
-      <div class="day-label">${name}</div>
-      <div style="font-size:10px;color:var(--dim)">${d.getDate()}</div>
-      <div class="day-dot"></div>
-    </button>`;
-  }).join('');
-}
-
-function selectDay(k) {
-  selectedDay = k;
-  renderDayScroll();
-  renderTaskList();
-}
-
-document.getElementById('domain-chips').addEventListener('click', e => {
-  const chip = e.target.closest('.chip');
-  if (!chip) return;
-  selectedDomain = chip.dataset.domain;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  chip.classList.add('active');
-  renderTaskList();
-});
-
-function renderDomainChips() {}
-
-function renderTaskList() {
-  const list = document.getElementById('task-list');
-  const tasks = (state.tasks[selectedDay] || []).filter(t =>
-    selectedDomain === 'all' || t.domain === selectedDomain
-  );
-  if (tasks.length === 0) {
-    list.innerHTML = '<div class="empty">لا توجد مهام — أضف مهمة جديدة أعلاه</div>';
-    return;
-  }
-  list.innerHTML = tasks.map((t, i) => {
-    const realIdx = (state.tasks[selectedDay] || []).indexOf(t);
-    const col = domainColors[t.domain] || '#6c63ff';
-    const lbl = domainLabels[t.domain] || t.domain;
-    return `<div class="task-item ${t.done?'done':''}" onclick="toggleTask('${selectedDay}',${realIdx})">
-      <div class="task-check">
-        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div style="flex:1">
-        <div class="task-name">${t.text}</div>
-        <div class="task-meta">
-          <span class="task-badge" style="background:${col}22;color:${col}">${lbl}</span>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <input class="input" id="at-text" placeholder="عنوان المهمة..." autofocus>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">المجال</label>
+          <select class="input" id="at-domain">
+            <option value="study">📚 دراسة</option>
+            <option value="ccna">🌐 CCNA</option>
+            <option value="youtube">🎬 يوتيوب</option>
+            <option value="sport">💪 رياضة</option>
+            <option value="ecom">🛒 تجارة</option>
+            <option value="read">📖 قراءة</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">الأولوية</label>
+          <select class="input" id="at-priority">
+            <option value="medium">🟡 متوسطة</option>
+            <option value="high">🔴 عالية</option>
+            <option value="low">🟢 منخفضة</option>
+          </select>
         </div>
       </div>
-      <button onclick="event.stopPropagation();deleteTask('${selectedDay}',${realIdx})" style="background:none;border:none;color:var(--dim);font-size:18px;cursor:pointer;padding:0 4px">×</button>
-    </div>`;
-  }).join('');
-}
+      <div>
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">ملاحظات (اختياري)</label>
+        <textarea class="input" id="at-notes" placeholder="أي تفاصيل إضافية..." style="min-height:60px"></textarea>
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">تاريخ المهمة</label>
+        <input class="input" type="date" id="at-date">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
+        <button class="btn btn-ghost" onclick="closeModal('modal-add-task')">إلغاء</button>
+        <button class="btn btn-primary" onclick="submitAddTask()">إضافة المهمة ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-function addTask() {
-  const inp = document.getElementById('task-input');
-  const domain = document.getElementById('task-domain').value;
-  const text = inp.value.trim();
-  if (!text) return;
-  if (!state.tasks[selectedDay]) state.tasks[selectedDay] = [];
-  state.tasks[selectedDay].push({ text, domain, done: false });
-  inp.value = '';
-  save(state);
-  renderTaskList();
-  renderDayScroll();
-  showToast('تمت إضافة المهمة');
-}
+<!-- ══════════════════════════════════════════════
+     MODAL: ADD GOAL
+══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-add-goal" onclick="closeModal('modal-add-goal')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">هدف جديد</div>
+      <button class="modal-close" onclick="closeModal('modal-add-goal')">&times;</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <input class="input" id="ag-title" placeholder="عنوان الهدف...">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">الفترة</label>
+          <select class="input" id="ag-period">
+            <option value="daily">يومي</option>
+            <option value="weekly">أسبوعي</option>
+            <option value="monthly">شهري</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">الأيقونة</label>
+          <input class="input" id="ag-emoji" placeholder="🎯" maxlength="2" style="text-align:center;font-size:20px">
+        </div>
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">الهدف العددي (اختياري)</label>
+        <input class="input" id="ag-target" type="number" min="0" placeholder="0">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn btn-ghost" onclick="closeModal('modal-add-goal')">إلغاء</button>
+        <button class="btn btn-primary" onclick="submitAddGoal()">إضافة الهدف</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-document.getElementById('task-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+<!-- ══════════════════════════════════════════════
+     MODAL: TASK DETAIL
+══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-task-detail" onclick="closeModal('modal-task-detail')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">تفاصيل المهمة</div>
+      <button class="modal-close" onclick="closeModal('modal-task-detail')">&times;</button>
+    </div>
+    <div id="task-detail-body"></div>
+  </div>
+</div>
 
-function toggleTask(day, i) {
-  state.tasks[day][i].done = !state.tasks[day][i].done;
-  save(state);
-  renderTaskList();
-  renderDayScroll();
-  if (state.tasks[day][i].done) showToast('أحسنت! مهمة مكتملة ✓');
-}
+<!-- FOCUS MODE OVERLAY -->
+<div class="focus-overlay" id="focus-overlay">
+  <div style="font-size:14px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:700">وضع التركيز</div>
+  <div class="focus-timer" id="focus-timer">25:00</div>
+  <div class="focus-label" id="focus-task-name">— ابدأ جلسة عمل —</div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+    <button class="btn btn-primary" id="focus-btn" onclick="toggleFocus()">▶ ابدأ</button>
+    <button class="btn btn-secondary" onclick="resetFocus()">↺ إعادة</button>
+    <button class="btn btn-ghost" onclick="closeFocus()">← خروج</button>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+    <button class="btn btn-sm btn-ghost" onclick="setFocusDuration(25)">25 دقيقة</button>
+    <button class="btn btn-sm btn-ghost" onclick="setFocusDuration(50)">50 دقيقة</button>
+    <button class="btn btn-sm btn-ghost" onclick="setFocusDuration(90)">90 دقيقة</button>
+  </div>
+</div>
 
-function deleteTask(day, i) {
-  state.tasks[day].splice(i, 1);
-  save(state);
-  renderTaskList();
-  renderDayScroll();
-}
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════ -->
+<script>
+'use strict';
 
-// ===== PROGRAM =====
-function renderProgram() {
-  const start = new Date(state.startDate);
-  const now = new Date();
-  const week = Math.floor((now - start) / (1000*60*60*24*7));
-  const w1 = Math.min(Math.max(week, 0), 8);
-  const w2 = Math.min(Math.max(week - 8, 0), 8);
-  const w3 = Math.min(Math.max(week - 16, 0), 8);
-  document.getElementById('prog1').style.width = Math.round(w1/8*100) + '%';
-  document.getElementById('prog2').style.width = Math.round(w2/8*100) + '%';
-  document.getElementById('prog3').style.width = Math.round(w3/8*100) + '%';
-  document.getElementById('prog1-txt').textContent = `${w1} من 8 أسابيع`;
-  document.getElementById('prog2-txt').textContent = `${w2} من 8 أسابيع`;
-  document.getElementById('prog3-txt').textContent = `${w3} من 8 أسابيع`;
-}
+// ================================================================
+// CONSTANTS & CONFIG
+// ================================================================
+const STORE_KEY = 'lmkabdo_v2';
+const AUTOSAVE_DELAY = 1500; // ms
+const XP_PER_TASK = 10;
+const XP_PER_MIT = 25;
+const XP_PER_HABIT = 5;
 
-// ===== REVIEW =====
+const DAY_NAMES_SHORT = ['أحد','إثن','ثلا','أرب','خمس','جمع','سبت'];
+const DAY_NAMES_FULL = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+const DOMAIN_COLORS = {
+  study: 'var(--violet-l)', ccna: 'var(--mint)',
+  youtube: 'var(--rose)', sport: 'var(--amber)',
+  ecom: 'var(--sky)', read: '#fd79a8'
+};
+const DOMAIN_LABELS = {
+  study:'دراسة', ccna:'CCNA', youtube:'يوتيوب',
+  sport:'رياضة', ecom:'تجارة', read:'قراءة'
+};
+const DOMAIN_EMOJIS = {
+  study:'📚', ccna:'🌐', youtube:'🎬',
+  sport:'💪', ecom:'🛒', read:'📖'
+};
+
+const HABITS_CONFIG = [
+  { id: 'ccna',    label: 'CCNA / دراسة', emoji: '🌐' },
+  { id: 'sport',   label: 'رياضة',        emoji: '💪' },
+  { id: 'read',    label: 'قراءة',        emoji: '📖' },
+  { id: 'youtube', label: 'يوتيوب',       emoji: '🎬' },
+  { id: 'sleep',   label: 'نوم 7ساع+',    emoji: '😴' },
+  { id: 'nosurf',  label: 'تركيز رقمي',   emoji: '🧠' },
+];
+
 const REVIEW_ITEMS = [
   'أنجزت جلسات CCNA المخططة',
   'عملت على قناة اليوتيوب',
@@ -726,37 +1215,805 @@ const REVIEW_ITEMS = [
   'حددت مهام MIT يومية',
   'تجنبت التشتت الرقمي',
   'نمت 7 ساعات+ معظم الليالي',
+  'راجعت أهدافي الأسبوعية',
 ];
 
-function renderReview() {
-  const weekKey = getWeekKey();
-  const rev = state.review[weekKey] || {};
-  const checks = rev.checks || {};
-  const el = document.getElementById('review-checks');
-  el.innerHTML = REVIEW_ITEMS.map((item, i) => `
-    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);${i===REVIEW_ITEMS.length-1?'border-bottom:none':''}">
-      <div class="task-check ${checks[i]?'done':''}" style="cursor:pointer" onclick="toggleReviewCheck(${i})">
-        <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#000;stroke-width:2.5;display:${checks[i]?'block':'none'}"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div style="font-size:13px;color:${checks[i]?'var(--muted)':'var(--text)'};${checks[i]?'text-decoration:line-through':''}">${item}</div>
-    </div>
-  `).join('');
-  const done = Object.values(checks).filter(Boolean).length;
-  const pct = Math.round(done / REVIEW_ITEMS.length * 100);
-  document.getElementById('review-score-badge').textContent = pct + '%';
+const MOTIVATIONAL_QUOTES = [
+  'الانضباط يصنع الحرية.',
+  'كل خطوة صغيرة هي تقدم.',
+  'النجاح هو مجموع الجهود الصغيرة المتكررة.',
+  'ابدأ الآن، الكمال يأتي بالممارسة.',
+  'الاتساق أقوى من الكثافة.',
+  'يومٌ واحد لن يغير حياتك، لكن الاتساق سيفعل.',
+  'الجهد اليومي هو الفارق الوحيد.',
+  'ما تفعله الآن يصنع غدًا أفضل.',
+];
 
-  const r = rev.reflections || {};
-  document.getElementById('r1').value = r.r1 || '';
-  document.getElementById('r2').value = r.r2 || '';
-  document.getElementById('r3').value = r.r3 || '';
+const BOOKS_DATA = [
+  { title: 'Atomic Habits',     author: 'James Clear',   phase: 1, month: 'الأول',   color: 'var(--violet)' },
+  { title: 'Deep Work',         author: 'Cal Newport',   phase: 1, month: 'الثاني',  color: 'var(--violet-l)' },
+  { title: 'The One Thing',     author: 'Gary Keller',   phase: 2, month: 'الثالث',  color: 'var(--mint)' },
+  { title: '$100M Offers',      author: 'Alex Hormozi',  phase: 2, month: 'الرابع',  color: 'var(--mint)' },
+  { title: 'Show Your Work',    author: 'Austin Kleon',  phase: 3, month: 'الخامس',  color: 'var(--amber)' },
+  { title: 'The Lean Startup',  author: 'Eric Ries',     phase: 3, month: 'السادس',  color: 'var(--amber)' },
+];
+
+// ================================================================
+// STATE MANAGEMENT
+// ================================================================
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function saveState(data, silent = false) {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(data));
+    if (!silent) showAutosaveIndicator();
+  } catch(e) {
+    showToast('⚠️ فشل الحفظ — التخزين ممتلئ', 'error');
+  }
+}
+
+let state = loadState();
+// Initialize all state fields
+const defaults = {
+  tasks: {}, mit: [], habits: {}, review: {},
+  goals: [], xp: 0, startDate: new Date().toISOString().split('T')[0],
+  settings: { theme: 'dark', accent: 'violet', notifMorning: false, notifWeekly: false },
+  mitDate: '', sessions: [], notes: '', totalTasksDone: 0,
+};
+for (const [k, v] of Object.entries(defaults)) {
+  if (state[k] === undefined) state[k] = v;
+}
+if (state.settings === undefined) state.settings = defaults.settings;
+
+// Reset MIT daily
+const todayStr = todayKey();
+if (state.mitDate !== todayStr) {
+  state.mit = [];
+  state.mitDate = todayStr;
+  saveState(state, true);
+}
+
+// ================================================================
+// UTILS
+// ================================================================
+function todayKey() { return new Date().toISOString().split('T')[0]; }
+
+function dayKeys(n = 7) {
+  const days = [];
+  const now = new Date();
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    days.push(d.toISOString().split('T')[0]);
+  }
+  return days;
 }
 
 function getWeekKey() {
   const now = new Date();
   const day = now.getDay();
-  const diff = now.getDate() - day;
-  const sun = new Date(now.setDate(diff));
-  return sun.toISOString().split('T')[0];
+  const d = new Date(now);
+  d.setDate(d.getDate() - day);
+  return d.toISOString().split('T')[0];
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return `${DAY_NAMES_FULL[d.getDay()]}، ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+}
+
+function calcXPLevel(xp) {
+  const xpPerLevel = 500;
+  const level = Math.floor(xp / xpPerLevel) + 1;
+  const progress = ((xp % xpPerLevel) / xpPerLevel) * 100;
+  return { level, progress, nextXP: xpPerLevel - (xp % xpPerLevel) };
+}
+
+function calcStreak() {
+  const dk = dayKeys(30);
+  let streak = 0;
+  const today = todayKey();
+  for (let i = dk.length - 1; i >= 0; i--) {
+    const ts = state.tasks[dk[i]] || [];
+    if (ts.length > 0 && ts.every(t => t.done)) streak++;
+    else if (dk[i] !== today) break;
+  }
+  return streak;
+}
+
+// ================================================================
+// AUTOSAVE
+// ================================================================
+let autosaveTimer = null;
+function scheduleAutosave() {
+  if (autosaveTimer) clearTimeout(autosaveTimer);
+  autosaveTimer = setTimeout(() => saveState(state), AUTOSAVE_DELAY);
+}
+
+function showAutosaveIndicator() {
+  const el = document.getElementById('autosave-ind');
+  el.style.opacity = '1';
+  setTimeout(() => el.style.opacity = '0', 1800);
+}
+
+// ================================================================
+// TOAST SYSTEM
+// ================================================================
+function showToast(msg, type = 'default', duration = 2500) {
+  const container = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  container.appendChild(t);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => t.classList.add('show'));
+  });
+  setTimeout(() => {
+    t.classList.remove('show');
+    setTimeout(() => t.remove(), 400);
+  }, duration);
+}
+
+// ================================================================
+// NAVIGATION
+// ================================================================
+let currentPage = 'home';
+let selectedDay = todayKey();
+let selectedDomain = 'all';
+let sortMode = 'default';
+let goalsFilter = 'all';
+
+const PAGE_RENDERERS = {
+  home: renderHome,
+  tasks: renderTaskPage,
+  goals: renderGoals,
+  program: renderProgram,
+  review: renderReview,
+  settings: renderSettings,
+};
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  const pageEl = document.getElementById('page-' + name);
+  if (!pageEl) return;
+  pageEl.classList.add('active');
+  const navBtn = document.querySelector(`.nav-item[data-page="${name}"]`);
+  if (navBtn) navBtn.classList.add('active');
+  currentPage = name;
+  if (PAGE_RENDERERS[name]) PAGE_RENDERERS[name]();
+  pageEl.scrollTop = 0;
+}
+
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => showPage(btn.dataset.page));
+});
+
+// ================================================================
+// KEYBOARD SHORTCUTS
+// ================================================================
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  switch(e.key.toLowerCase()) {
+    case 'h': showPage('home'); break;
+    case 't': showPage('tasks'); break;
+    case 'g': showPage('goals'); break;
+    case 'p': showPage('program'); break;
+    case 'r': showPage('review'); break;
+    case 's': showPage('settings'); break;
+    case 'f': openFocus(); break;
+    case 'n': if (currentPage === 'tasks') openAddTask(); break;
+    case 'escape': closeAllModals(); closeFocus(); break;
+  }
+});
+
+// ================================================================
+// OFFLINE DETECTION
+// ================================================================
+window.addEventListener('online', () => {
+  document.getElementById('offline-banner').classList.remove('show');
+  showToast('✅ عاد الاتصال بالإنترنت', 'success');
+});
+window.addEventListener('offline', () => {
+  document.getElementById('offline-banner').classList.add('show');
+  showToast('📡 لا يوجد اتصال — يعمل Offline', 'warn');
+});
+if (!navigator.onLine) document.getElementById('offline-banner').classList.add('show');
+
+// ================================================================
+// HOME PAGE
+// ================================================================
+function renderHome() {
+  const now = new Date();
+  const h = now.getHours();
+  const greet = h < 5 ? 'ليلة مباركة 🌙' : h < 12 ? 'صباح الخير ☀️' : h < 17 ? 'مرحباً 👋' : 'مساء الخير 🌆';
+  document.getElementById('greeting').textContent = greet;
+  const q = MOTIVATIONAL_QUOTES[now.getDate() % MOTIVATIONAL_QUOTES.length];
+  document.getElementById('motivational-quote').textContent = `"${q}"`;
+  document.getElementById('today-date').textContent = `${DAY_NAMES_FULL[now.getDay()]}، ${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+
+  // Stats
+  const today = todayKey();
+  const todayTasks = state.tasks[today] || [];
+  const doneCnt = todayTasks.filter(t => t.done).length;
+  document.getElementById('stat-done').textContent = `${doneCnt}/${todayTasks.length}`;
+  document.getElementById('stat-streak').textContent = calcStreak();
+
+  let weekDone = 0, weekTotal = 0;
+  dayKeys().forEach(k => {
+    const ts = state.tasks[k] || [];
+    weekTotal += ts.length;
+    weekDone += ts.filter(t => t.done).length;
+  });
+  const pct = weekTotal > 0 ? Math.round(weekDone / weekTotal * 100) : 0;
+  document.getElementById('stat-week-pct').textContent = pct + '%';
+  document.getElementById('week-total-badge').textContent = `${weekDone}/${weekTotal} مهمة`;
+
+  // Bar chart
+  renderWeekBarChart();
+
+  // XP badge
+  document.getElementById('xp-badge').innerHTML = `⚡ ${state.xp || 0} XP`;
+
+  renderMIT();
+  renderHabits();
+  renderCurrentPhase();
+  renderLevelCard();
+}
+
+function renderWeekBarChart() {
+  const dk = dayKeys();
+  const maxTasks = Math.max(1, ...dk.map(k => (state.tasks[k] || []).length));
+  const today = todayKey();
+  const html = dk.map(k => {
+    const ts = state.tasks[k] || [];
+    const total = ts.length;
+    const done = ts.filter(t => t.done).length;
+    const pct = total > 0 ? Math.round(done / total * 100) : 0;
+    const h = total > 0 ? Math.round((total / maxTasks) * 68) : 4;
+    const doneH = Math.round(h * pct / 100);
+    const d = new Date(k);
+    const isToday = k === today;
+    return `<div class="bar-wrap">
+      <div class="bar-val">${total > 0 ? pct + '%' : ''}</div>
+      <div class="bar ${isToday ? 'active-bar' : ''}" style="height:${h}px;background:${
+        isToday ? 'linear-gradient(180deg, var(--violet-l), var(--violet))' :
+        total > 0 ? 'linear-gradient(180deg, var(--violet-bg), rgba(124,111,255,0.04))' : 'var(--surface3)'
+      }"></div>
+      <div class="bar-day-label">${DAY_NAMES_SHORT[d.getDay()]}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('week-bar-chart').innerHTML = html;
+}
+
+function renderCurrentPhase() {
+  const start = new Date(state.startDate);
+  const now = new Date();
+  const diff = Math.floor((now - start) / (1000*60*60*24*7));
+  const week = Math.min(diff + 1, 24);
+  let phase, pname, pcls;
+  if (week <= 8) { phase = 1; pname = 'الأساس والبناء'; pcls = 'pill-violet'; }
+  else if (week <= 16) { phase = 2; pname = 'التسريع والنمو'; pcls = 'pill-mint'; }
+  else { phase = 3; pname = 'الإطلاق والتوسع'; pcls = 'pill-amber'; }
+  const overallPct = Math.min(Math.round(week / 24 * 100), 100);
+  const fillCls = ['fill-violet','fill-mint','fill-amber'][phase-1];
+  document.getElementById('current-phase-card').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <span class="pill ${pcls}">المرحلة ${phase}</span>
+      <span style="font-size:12px;color:var(--muted);font-weight:600">الأسبوع ${week} من 24</span>
+    </div>
+    <div style="font-weight:700;font-size:15px;margin-bottom:5px">${pname}</div>
+    <div class="progress-wrap"><div class="progress-fill ${fillCls}" style="width:${overallPct}%"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px">
+      <span style="font-size:12px;color:var(--muted)">${overallPct}% من البرنامج</span>
+      <span style="font-size:12px;color:var(--muted)">${24 - week} أسابيع متبقية</span>
+    </div>
+  `;
+}
+
+function renderLevelCard() {
+  const { level, progress, nextXP } = calcXPLevel(state.xp || 0);
+  const levelEl = document.getElementById('level-card');
+  const degProgress = Math.round(progress * 3.6);
+  levelEl.innerHTML = `
+    <div style="display:flex;align-items:center;gap:16px">
+      <div class="level-ring" style="--pct:${progress}%">
+        <svg width="64" height="64" viewBox="0 0 64 64" style="position:absolute;inset:0">
+          <circle cx="32" cy="32" r="28" fill="none" stroke="var(--surface3)" stroke-width="4"/>
+          <circle cx="32" cy="32" r="28" fill="none" stroke="var(--violet)" stroke-width="4"
+            stroke-dasharray="${2*Math.PI*28}" stroke-dashoffset="${2*Math.PI*28*(1-progress/100)}"
+            stroke-linecap="round" transform="rotate(-90 32 32)" style="transition:stroke-dashoffset .6s ease"/>
+        </svg>
+        <div class="level-inner">
+          <div class="level-num">${level}</div>
+          <div class="level-txt">LVL</div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:16px;font-weight:700">المستوى ${level}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:3px">${Math.round(progress)}% نحو المستوى ${level+1}</div>
+        <div class="progress-wrap" style="margin-top:8px"><div class="progress-fill fill-violet" style="width:${progress}%"></div></div>
+        <div style="font-size:11px;color:var(--dim);margin-top:4px">تحتاج ${nextXP} XP للمستوى التالي</div>
+      </div>
+      <div style="text-align:center">
+        <div class="xp-badge">⚡ ${state.xp || 0}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;font-weight:600">نقطة XP</div>
+      </div>
+    </div>
+  `;
+}
+
+// ================================================================
+// MIT (Most Important Tasks)
+// ================================================================
+function renderMIT() {
+  const list = document.getElementById('mit-list');
+  const mits = state.mit || [];
+  if (mits.length === 0) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">🎯</div>لا توجد مهام أساسية — أضف ما يهمك اليوم</div>';
+    return;
+  }
+  list.innerHTML = mits.map((m, i) => `
+    <div class="mit-item">
+      <span class="mit-num">${i+1}</span>
+      <div style="flex:1;font-size:14px;${m.done?'text-decoration:line-through;color:var(--muted)':''}">${escHtml(m.text)}</div>
+      <button onclick="toggleMIT(${i})" class="btn btn-sm ${m.done?'btn-ghost':'btn-primary'}" style="padding:4px 12px;font-size:11px">${m.done?'✓ مكتملة':'إنجاز'}</button>
+      <button onclick="deleteMIT(${i})" class="btn-icon btn-ghost btn-sm" aria-label="حذف">×</button>
+    </div>
+  `).join('');
+}
+
+function addMIT() {
+  const inp = document.getElementById('mit-input');
+  const text = inp.value.trim();
+  if (!text) return;
+  if ((state.mit || []).length >= 3) { showToast('⚠️ أقصى 3 مهام أساسية يومياً', 'warn'); return; }
+  if (!state.mit) state.mit = [];
+  state.mit.push({ text, done: false, createdAt: Date.now() });
+  inp.value = '';
+  scheduleAutosave();
+  renderMIT();
+  showToast('✅ تمت إضافة المهمة الأساسية', 'success');
+}
+document.getElementById('mit-input').addEventListener('keydown', e => { if (e.key === 'Enter') addMIT(); });
+
+function toggleMIT(i) {
+  state.mit[i].done = !state.mit[i].done;
+  if (state.mit[i].done) {
+    state.xp = (state.xp || 0) + XP_PER_MIT;
+    state.totalTasksDone = (state.totalTasksDone || 0) + 1;
+    showToast('🏆 +25 XP — مهمة أساسية مكتملة!', 'success');
+  }
+  scheduleAutosave();
+  renderMIT();
+  renderLevelCard();
+  document.getElementById('xp-badge').innerHTML = `⚡ ${state.xp || 0} XP`;
+}
+
+function deleteMIT(i) {
+  state.mit.splice(i, 1);
+  scheduleAutosave();
+  renderMIT();
+}
+
+// ================================================================
+// HABIT TRACKER
+// ================================================================
+function renderHabits() {
+  const dk = dayKeys();
+  const el = document.getElementById('habit-list');
+  el.innerHTML = HABITS_CONFIG.map(h => {
+    const dots = dk.map((k, di) => {
+      const on = (state.habits[k] || {})[h.id];
+      return `<button class="habit-dot ${on?'on':''}" onclick="toggleHabit('${k}','${h.id}')" title="${DAY_NAMES_SHORT[new Date(k).getDay()]}" aria-label="${h.label}"></button>`;
+    }).join('');
+    const count = dk.filter(k => (state.habits[k] || {})[h.id]).length;
+    return `
+      <div class="habit-row">
+        <div class="habit-label">${h.emoji} ${h.label}</div>
+        <div class="habit-dots">${dots}</div>
+        <div class="habit-count">${count}/7</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleHabit(day, id) {
+  if (!state.habits[day]) state.habits[day] = {};
+  const wasOn = state.habits[day][id];
+  state.habits[day][id] = !wasOn;
+  if (!wasOn) {
+    state.xp = (state.xp || 0) + XP_PER_HABIT;
+    showToast(`+${XP_PER_HABIT} XP`, 'success');
+  }
+  scheduleAutosave();
+  renderHabits();
+  document.getElementById('xp-badge').innerHTML = `⚡ ${state.xp || 0} XP`;
+}
+
+// ================================================================
+// TASKS PAGE
+// ================================================================
+function renderTaskPage() {
+  renderDayScroll();
+  renderDomainChips();
+  renderTaskList();
+  updateTasksHeader();
+}
+
+function updateTasksHeader() {
+  const today = todayKey();
+  const ts = state.tasks[selectedDay] || [];
+  const done = ts.filter(t => t.done).length;
+  const label = selectedDay === today ? 'اليوم' : formatDate(selectedDay);
+  document.getElementById('tasks-header-sub').textContent = `${label}: ${done}/${ts.length} مهمة`;
+}
+
+function renderDayScroll() {
+  const dk = dayKeys();
+  const today = todayKey();
+  const scroll = document.getElementById('day-scroll');
+  scroll.innerHTML = dk.map(k => {
+    const d = new Date(k);
+    const ts = state.tasks[k] || [];
+    const allDone = ts.length > 0 && ts.every(t => t.done);
+    const isToday = k === today;
+    return `<button class="day-btn ${k===selectedDay?'active':''} ${allDone?'completed':''}" onclick="selectDay('${k}')" aria-label="${formatDate(k)}">
+      <div class="day-label">${DAY_NAMES_SHORT[d.getDay()]}</div>
+      <div class="day-num">${d.getDate()}</div>
+      <div class="day-dot-wrap"><div class="day-dot"></div></div>
+    </button>`;
+  }).join('');
+  scroll.querySelector(`[onclick="selectDay('${selectedDay}')"]`)?.scrollIntoView({ inline: 'center', behavior: 'smooth' });
+}
+
+function selectDay(k) {
+  selectedDay = k;
+  renderDayScroll();
+  renderTaskList();
+  updateTasksHeader();
+}
+
+function renderDomainChips() {
+  document.querySelectorAll('#domain-chips .chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      selectedDomain = this.dataset.domain;
+      document.querySelectorAll('#domain-chips .chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      renderTaskList();
+    });
+  });
+}
+
+function setSort(mode) {
+  sortMode = mode;
+  document.querySelectorAll('#sort-default, #sort-priority, #sort-done').forEach(b => b.classList.remove('active'));
+  document.getElementById('sort-' + mode).classList.add('active');
+  renderTaskList();
+}
+
+function renderTaskList() {
+  const list = document.getElementById('task-list');
+  const searchQ = (document.getElementById('task-search')?.value || '').toLowerCase().trim();
+  let tasks = (state.tasks[selectedDay] || []).map((t, idx) => ({ ...t, idx }));
+
+  if (selectedDomain !== 'all') tasks = tasks.filter(t => t.domain === selectedDomain);
+  if (searchQ) tasks = tasks.filter(t => t.text.toLowerCase().includes(searchQ));
+
+  if (sortMode === 'priority') {
+    const po = { high:0, medium:1, low:2 };
+    tasks.sort((a,b) => (po[a.priority||'medium']||1) - (po[b.priority||'medium']||1));
+  } else if (sortMode === 'done') {
+    tasks.sort((a,b) => (a.done?1:0) - (b.done?1:0));
+  }
+
+  if (tasks.length === 0) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">📋</div>${searchQ ? 'لا توجد نتائج للبحث' : 'لا توجد مهام — أضف مهمة جديدة'}</div>`;
+    return;
+  }
+
+  list.innerHTML = tasks.map(t => {
+    const col = DOMAIN_COLORS[t.domain] || 'var(--violet-l)';
+    const lbl = DOMAIN_LABELS[t.domain] || t.domain;
+    const prioMap = { high:'🔴', medium:'🟡', low:'🟢' };
+    const prio = prioMap[t.priority||'medium'] || '';
+    return `
+      <div class="task-item ${t.done?'done':''} priority-${t.priority||'medium'}" onclick="toggleTask('${selectedDay}',${t.idx})">
+        <div class="task-check">
+          <svg class="task-check-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style="flex:1">
+          <div class="task-name">${escHtml(t.text)}</div>
+          <div class="task-meta">
+            <span class="tag tag-${t.domain}">${DOMAIN_EMOJIS[t.domain]||''} ${lbl}</span>
+            <span>${prio}</span>
+            ${t.notes ? `<span style="color:var(--dim)">📝</span>` : ''}
+          </div>
+        </div>
+        <div style="display:flex;gap:4px;">
+          <button onclick="event.stopPropagation();openTaskDetail('${selectedDay}',${t.idx})" class="btn-icon btn-ghost btn-sm" aria-label="تفاصيل">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+          </button>
+          <button onclick="event.stopPropagation();deleteTask('${selectedDay}',${t.idx})" class="btn-icon btn-ghost btn-sm" aria-label="حذف">×</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openAddTask() {
+  const modal = document.getElementById('modal-add-task');
+  document.getElementById('at-date').value = selectedDay;
+  document.getElementById('at-text').value = '';
+  document.getElementById('at-notes').value = '';
+  modal.classList.add('show');
+  setTimeout(() => document.getElementById('at-text').focus(), 100);
+}
+document.getElementById('modal-add-task').querySelector('input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitAddTask();
+});
+
+function submitAddTask() {
+  const text = document.getElementById('at-text').value.trim();
+  if (!text) { showToast('⚠️ أدخل عنوان المهمة', 'warn'); return; }
+  const domain = document.getElementById('at-domain').value;
+  const priority = document.getElementById('at-priority').value;
+  const notes = document.getElementById('at-notes').value.trim();
+  const date = document.getElementById('at-date').value || selectedDay;
+  if (!state.tasks[date]) state.tasks[date] = [];
+  state.tasks[date].push({ text, domain, priority, notes, done: false, createdAt: Date.now() });
+  scheduleAutosave();
+  closeModal('modal-add-task');
+  if (date === selectedDay) { renderTaskList(); renderDayScroll(); updateTasksHeader(); }
+  showToast('✅ تمت إضافة المهمة', 'success');
+}
+
+function toggleTask(day, i) {
+  const t = state.tasks[day][i];
+  t.done = !t.done;
+  if (t.done) {
+    state.xp = (state.xp || 0) + XP_PER_TASK;
+    state.totalTasksDone = (state.totalTasksDone || 0) + 1;
+    showToast(`✓ +${XP_PER_TASK} XP`, 'success');
+  }
+  scheduleAutosave();
+  renderTaskList();
+  renderDayScroll();
+  updateTasksHeader();
+  if (currentPage === 'home') { renderHome(); }
+}
+
+function deleteTask(day, i) {
+  if (!confirm('حذف هذه المهمة؟')) return;
+  state.tasks[day].splice(i, 1);
+  scheduleAutosave();
+  renderTaskList();
+  renderDayScroll();
+  updateTasksHeader();
+}
+
+function openTaskDetail(day, i) {
+  const t = state.tasks[day][i];
+  const body = document.getElementById('task-detail-body');
+  const col = DOMAIN_COLORS[t.domain] || 'var(--violet-l)';
+  body.innerHTML = `
+    <div style="margin-bottom:16px">
+      <div style="font-size:18px;font-weight:700;margin-bottom:8px">${escHtml(t.text)}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <span class="tag tag-${t.domain}">${DOMAIN_EMOJIS[t.domain]||''} ${DOMAIN_LABELS[t.domain]||t.domain}</span>
+        <span class="pill pill-violet" style="font-size:10px">أولوية: ${{high:'عالية',medium:'متوسطة',low:'منخفضة'}[t.priority||'medium']}</span>
+        <span class="pill ${t.done?'pill-mint':'pill-amber'}" style="font-size:10px">${t.done?'✓ مكتملة':'⏳ معلقة'}</span>
+      </div>
+      ${t.notes ? `<div class="card" style="font-size:13px;color:var(--text2)">${escHtml(t.notes)}</div>` : ''}
+      <div style="font-size:12px;color:var(--dim);margin-top:8px">أُضيفت: ${formatDate(day)}</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="toggleTask('${day}',${i});closeModal('modal-task-detail')">${t.done?'↩ إلغاء الإكمال':'✓ إكمال'}</button>
+      <button class="btn btn-danger" onclick="deleteTask('${day}',${i});closeModal('modal-task-detail')">🗑 حذف</button>
+    </div>
+  `;
+  document.getElementById('modal-task-detail').classList.add('show');
+}
+
+// ================================================================
+// GOALS PAGE
+// ================================================================
+function renderGoals() {
+  const list = document.getElementById('goals-list');
+  const goals = (state.goals || []).filter(g => goalsFilter === 'all' || g.period === goalsFilter);
+  if (goals.length === 0) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">🎯</div>لا توجد أهداف — أضف هدفاً جديداً</div>`;
+    return;
+  }
+  list.innerHTML = goals.map((g, i) => {
+    const realIdx = state.goals.indexOf(g);
+    const pct = g.target > 0 ? Math.min(Math.round((g.current||0)/g.target*100), 100) : 0;
+    const periodLabel = { daily:'يومي', weekly:'أسبوعي', monthly:'شهري' }[g.period] || g.period;
+    return `
+      <div class="card" style="margin-bottom:10px">
+        <div class="goal-card">
+          <div class="goal-icon" style="background:var(--violet-bg)">${g.emoji || '🎯'}</div>
+          <div class="goal-info">
+            <div class="goal-title">${escHtml(g.title)}</div>
+            <div class="goal-sub">${periodLabel} ${g.target ? `• ${g.current||0}/${g.target}` : ''}</div>
+            ${g.target ? `
+              <div class="progress-wrap" style="margin-top:8px"><div class="progress-fill fill-violet" style="width:${pct}%"></div></div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px">${pct}% مكتمل</div>
+            ` : ''}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+            ${g.target ? `<div class="goal-pct">${pct}%</div>` : ''}
+            ${g.target ? `<button class="btn btn-primary btn-sm" onclick="incrementGoal(${realIdx})">+1</button>` : ''}
+            <button class="btn btn-ghost btn-sm" onclick="deleteGoal(${realIdx})">×</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterGoals(el, period) {
+  goalsFilter = period;
+  document.querySelectorAll('[data-gperiod]').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderGoals();
+}
+
+function openGoalModal() {
+  document.getElementById('ag-title').value = '';
+  document.getElementById('ag-emoji').value = '🎯';
+  document.getElementById('ag-target').value = '';
+  document.getElementById('modal-add-goal').classList.add('show');
+  setTimeout(() => document.getElementById('ag-title').focus(), 100);
+}
+
+function submitAddGoal() {
+  const title = document.getElementById('ag-title').value.trim();
+  if (!title) { showToast('⚠️ أدخل عنوان الهدف', 'warn'); return; }
+  const period = document.getElementById('ag-period').value;
+  const emoji = document.getElementById('ag-emoji').value || '🎯';
+  const target = parseInt(document.getElementById('ag-target').value) || 0;
+  if (!state.goals) state.goals = [];
+  state.goals.push({ title, period, emoji, target, current: 0, createdAt: Date.now() });
+  scheduleAutosave();
+  closeModal('modal-add-goal');
+  renderGoals();
+  showToast('✅ تمت إضافة الهدف', 'success');
+}
+
+function incrementGoal(i) {
+  if (!state.goals[i].target) return;
+  if ((state.goals[i].current || 0) < state.goals[i].target) {
+    state.goals[i].current = (state.goals[i].current || 0) + 1;
+    if (state.goals[i].current >= state.goals[i].target) {
+      state.xp = (state.xp || 0) + 50;
+      showToast('🏆 +50 XP — هدف مكتمل! ', 'success', 3000);
+    }
+    scheduleAutosave();
+    renderGoals();
+  }
+}
+
+function deleteGoal(i) {
+  if (!confirm('حذف هذا الهدف؟')) return;
+  state.goals.splice(i, 1);
+  scheduleAutosave();
+  renderGoals();
+}
+
+// ================================================================
+// PROGRAM PAGE
+// ================================================================
+function renderProgram() {
+  const start = new Date(state.startDate);
+  const now = new Date();
+  const week = Math.floor((now - start) / (1000*60*60*24*7));
+  const w1 = Math.min(Math.max(week, 0), 8);
+  const w2 = Math.min(Math.max(week - 8, 0), 8);
+  const w3 = Math.min(Math.max(week - 16, 0), 8);
+  const overall = Math.min(Math.round(week / 24 * 100), 100);
+
+  document.getElementById('prog1').style.width = Math.round(w1/8*100) + '%';
+  document.getElementById('prog2').style.width = Math.round(w2/8*100) + '%';
+  document.getElementById('prog3').style.width = Math.round(w3/8*100) + '%';
+  document.getElementById('prog1-txt').textContent = `${w1} من 8 أسابيع`;
+  document.getElementById('prog2-txt').textContent = `${w2} من 8 أسابيع`;
+  document.getElementById('prog3-txt').textContent = `${w3} من 8 أسابيع`;
+
+  document.getElementById('prog-overall').style.width = overall + '%';
+  document.getElementById('prog-ring-num').textContent = overall + '%';
+  document.getElementById('prog-ring').style.setProperty('--pct', overall + '%');
+
+  const currentWeek = Math.min(week + 1, 24);
+  let pname;
+  if (currentWeek <= 8) pname = 'المرحلة 1 — الأساس والبناء';
+  else if (currentWeek <= 16) pname = 'المرحلة 2 — التسريع والنمو';
+  else pname = 'المرحلة 3 — الإطلاق والتوسع';
+  document.getElementById('prog-phase-name').textContent = pname;
+  document.getElementById('prog-week-txt').textContent = `الأسبوع ${currentWeek} من 24 — ${overall}% مكتمل`;
+
+  // Books
+  const booksEl = document.getElementById('books-list');
+  booksEl.innerHTML = BOOKS_DATA.map(b => `
+    <div class="card card-sm">
+      <div class="book-item">
+        <div class="book-spine" style="background:${b.color}"></div>
+        <div style="flex:1">
+          <div class="book-title">${b.title}</div>
+          <div class="book-author">${b.author}</div>
+          <div class="book-phase">المرحلة ${b.phase} — الشهر ${b.month}</div>
+        </div>
+        <span class="pill pill-${['violet','mint','amber'][b.phase-1]}" style="font-size:10px;align-self:flex-start">م${b.phase}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ================================================================
+// WEEKLY REVIEW PAGE
+// ================================================================
+function renderReview() {
+  const weekKey = getWeekKey();
+  const rev = state.review[weekKey] || {};
+  const checks = rev.checks || {};
+
+  // Week label
+  const wDate = new Date(weekKey);
+  const endDate = new Date(wDate);
+  endDate.setDate(endDate.getDate() + 6);
+  document.getElementById('review-week-label').textContent =
+    `${wDate.getDate()} ${MONTHS[wDate.getMonth()]} — ${endDate.getDate()} ${MONTHS[endDate.getMonth()]}`;
+
+  // Checklist
+  const el = document.getElementById('review-checks');
+  el.innerHTML = REVIEW_ITEMS.map((item, i) => `
+    <div class="mit-item" onclick="toggleReviewCheck(${i})" style="cursor:pointer">
+      <div class="task-check ${checks[i]?'done':''}">
+        <svg class="task-check-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div style="flex:1;font-size:13px;${checks[i]?'text-decoration:line-through;color:var(--muted)':''}">${item}</div>
+    </div>
+  `).join('');
+
+  const done = Object.values(checks).filter(Boolean).length;
+  const pct = Math.round(done / REVIEW_ITEMS.length * 100);
+  document.getElementById('review-score-badge').textContent = pct + '%';
+
+  // Reflections
+  const r = rev.reflections || {};
+  document.getElementById('r1').value = r.r1 || '';
+  document.getElementById('r2').value = r.r2 || '';
+  document.getElementById('r3').value = r.r3 || '';
+
+  // Week stats
+  let weekDone = 0, weekTotal = 0, habitsTotal = 0;
+  const dk = dayKeys();
+  dk.forEach(k => {
+    const ts = state.tasks[k] || [];
+    weekTotal += ts.length; weekDone += ts.filter(t => t.done).length;
+    HABITS_CONFIG.forEach(h => { if ((state.habits[k]||{})[h.id]) habitsTotal++; });
+  });
+  const streak = calcStreak();
+  document.getElementById('week-stats-summary').innerHTML = `
+    <div style="font-size:14px;font-weight:700;margin-bottom:12px">📊 إحصائيات الأسبوع</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <div style="text-align:center">
+        <div style="font-size:22px;font-weight:700;color:var(--mint)">${weekDone}</div>
+        <div style="font-size:11px;color:var(--muted)">مهمة مكتملة</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:22px;font-weight:700;color:var(--violet-l)">${weekTotal > 0 ? Math.round(weekDone/weekTotal*100) : 0}%</div>
+        <div style="font-size:11px;color:var(--muted)">معدل الإنجاز</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:22px;font-weight:700;color:var(--amber)">${habitsTotal}</div>
+        <div style="font-size:11px;color:var(--muted)">عادة مكتملة</div>
+      </div>
+    </div>
+  `;
 }
 
 function toggleReviewCheck(i) {
@@ -764,11 +2021,14 @@ function toggleReviewCheck(i) {
   if (!state.review[weekKey]) state.review[weekKey] = {};
   if (!state.review[weekKey].checks) state.review[weekKey].checks = {};
   state.review[weekKey].checks[i] = !state.review[weekKey].checks[i];
-  save(state);
+  if (state.review[weekKey].checks[i]) {
+    state.xp = (state.xp || 0) + 5;
+  }
+  scheduleAutosave();
   renderReview();
 }
 
-function saveReview() {
+function autoSaveReview() {
   const weekKey = getWeekKey();
   if (!state.review[weekKey]) state.review[weekKey] = {};
   state.review[weekKey].reflections = {
@@ -776,20 +2036,226 @@ function saveReview() {
     r2: document.getElementById('r2').value,
     r3: document.getElementById('r3').value,
   };
-  save(state);
+  scheduleAutosave();
 }
 
-// ===== INIT =====
+// ================================================================
+// SETTINGS PAGE
+// ================================================================
+function renderSettings() {
+  const s = state.settings || {};
+  document.getElementById('theme-toggle').checked = s.theme === 'light';
+  document.getElementById('notif-morning').checked = !!s.notifMorning;
+  document.getElementById('notif-weekly').checked = !!s.notifWeekly;
+
+  // Start date
+  const startD = new Date(state.startDate);
+  document.getElementById('start-date-display').textContent =
+    `بدأ في: ${startD.getDate()} ${MONTHS[startD.getMonth()]} ${startD.getFullYear()}`;
+
+  // Data size
+  const size = new Blob([JSON.stringify(state)]).size;
+  document.getElementById('data-size-info').textContent =
+    `حجم البيانات: ${(size / 1024).toFixed(1)} KB`;
+}
+
+function saveSetting(key, val) {
+  if (!state.settings) state.settings = {};
+  state.settings[key] = val;
+  scheduleAutosave();
+}
+
+function toggleTheme(isLight) {
+  const theme = isLight ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+  saveSetting('theme', theme);
+  showToast(isLight ? '☀️ الوضع المضيء' : '🌙 الوضع المظلم');
+}
+
+function setAccent(color) {
+  saveSetting('accent', color);
+  showToast('🎨 تم تغيير اللون');
+}
+
+function resetStartDate() {
+  if (!confirm('إعادة ضبط تاريخ بدء البرنامج إلى اليوم؟')) return;
+  state.startDate = new Date().toISOString().split('T')[0];
+  scheduleAutosave();
+  renderSettings();
+  showToast('✅ تم إعادة ضبط التاريخ', 'success');
+}
+
+// ================================================================
+// DATA EXPORT / IMPORT
+// ================================================================
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `lmkabdo-backup-${todayKey()}.json`;
+  a.click();
+  showToast('📥 تم تصدير البيانات', 'success');
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!confirm('هذا سيستبدل جميع بياناتك الحالية. متأكد؟')) return;
+      Object.assign(state, imported);
+      saveState(state);
+      location.reload();
+    } catch {
+      showToast('❌ ملف غير صالح', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function exportWeekReport() {
+  const weekKey = getWeekKey();
+  const rev = state.review[weekKey] || {};
+  const checks = rev.checks || {};
+  const done = Object.values(checks).filter(Boolean).length;
+  const pct = Math.round(done / REVIEW_ITEMS.length * 100);
+  let dk = dayKeys(); let weekDone=0,weekTotal=0;
+  dk.forEach(k => {
+    const ts = state.tasks[k]||[];
+    weekTotal+=ts.length; weekDone+=ts.filter(t=>t.done).length;
+  });
+  const r = rev.reflections || {};
+  const text = `📋 تقرير الأسبوع — lmkabdo\n
+🗓️ الأسبوع: ${formatDate(weekKey)}\n
+📊 التقييم العام: ${pct}% (${done}/${REVIEW_ITEMS.length})\n
+✅ المهام: ${weekDone}/${weekTotal} مكتملة\n
+🔥 الأيام المتواصلة: ${calcStreak()}\n
+⚡ النقاط: ${state.xp || 0} XP\n
+📝 الإنجازات:\n${r.r1||'—'}\n
+🚧 العقبات:\n${r.r2||'—'}\n
+🎯 هدف الأسبوع القادم:\n${r.r3||'—'}\n`;
+
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `lmkabdo-report-${weekKey}.txt`;
+  a.click();
+  showToast('📤 تم تصدير التقرير', 'success');
+}
+
+function shareReport() {
+  const weekDone = dayKeys().reduce((acc, k) => acc + (state.tasks[k]||[]).filter(t=>t.done).length, 0);
+  const text = `📋 أسبوعي على lmkabdo\n✅ ${weekDone} مهمة مكتملة\n🔥 ${calcStreak()} أيام متواصلة\n⚡ ${state.xp||0} XP`;
+  if (navigator.share) {
+    navigator.share({ text }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text).then(() => showToast('📋 تم النسخ', 'success'));
+  }
+}
+
+function confirmClearData() {
+  if (!confirm('هذا سيحذف جميع بياناتك نهائياً! هل أنت متأكد تماماً؟')) return;
+  if (!confirm('تأكيد أخير — سيتم حذف كل شيء.')) return;
+  localStorage.removeItem(STORE_KEY);
+  location.reload();
+}
+
+// ================================================================
+// MODALS
+// ================================================================
+function closeModal(id) {
+  document.getElementById(id)?.classList.remove('show');
+}
+function closeAllModals() {
+  document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+}
+
+// ================================================================
+// FOCUS MODE (Pomodoro)
+// ================================================================
+let focusInterval = null;
+let focusRemaining = 25 * 60;
+let focusDuration = 25 * 60;
+let focusRunning = false;
+
+function openFocus() {
+  document.getElementById('focus-overlay').classList.add('show');
+  updateFocusDisplay();
+}
+function closeFocus() {
+  document.getElementById('focus-overlay').classList.remove('show');
+  clearInterval(focusInterval);
+  focusRunning = false;
+  document.getElementById('focus-btn').textContent = '▶ ابدأ';
+}
+function toggleFocus() {
+  if (focusRunning) {
+    clearInterval(focusInterval);
+    focusRunning = false;
+    document.getElementById('focus-btn').textContent = '▶ استمر';
+  } else {
+    focusRunning = true;
+    document.getElementById('focus-btn').textContent = '⏸ إيقاف';
+    focusInterval = setInterval(() => {
+      focusRemaining--;
+      if (focusRemaining <= 0) {
+        clearInterval(focusInterval);
+        focusRunning = false;
+        document.getElementById('focus-btn').textContent = '▶ ابدأ';
+        focusRemaining = focusDuration;
+        showToast('🎉 انتهت الجلسة! أحسنت!', 'success', 4000);
+        state.xp = (state.xp || 0) + Math.round(focusDuration / 60) * 3;
+        scheduleAutosave();
+        if (document.getElementById('focus-overlay').classList.contains('show')) closeFocus();
+      }
+      updateFocusDisplay();
+    }, 1000);
+  }
+}
+function resetFocus() {
+  clearInterval(focusInterval);
+  focusRunning = false;
+  focusRemaining = focusDuration;
+  document.getElementById('focus-btn').textContent = '▶ ابدأ';
+  updateFocusDisplay();
+}
+function setFocusDuration(mins) {
+  resetFocus();
+  focusDuration = mins * 60;
+  focusRemaining = focusDuration;
+  updateFocusDisplay();
+}
+function updateFocusDisplay() {
+  const m = String(Math.floor(focusRemaining/60)).padStart(2,'0');
+  const s = String(focusRemaining%60).padStart(2,'0');
+  document.getElementById('focus-timer').textContent = `${m}:${s}`;
+}
+
+// ================================================================
+// SECURITY: HTML ESCAPE
+// ================================================================
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+// ================================================================
+// APPLY SAVED SETTINGS ON LOAD
+// ================================================================
+(function applySettings() {
+  const s = state.settings || {};
+  if (s.theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+})();
+
+// ================================================================
+// INIT
+// ================================================================
 renderHome();
 
-// reset MIT daily
-const lastMITDate = state.mitDate;
-const todayStr = todayKey();
-if (lastMITDate !== todayStr) {
-  state.mit = [];
-  state.mitDate = todayStr;
-  save(state);
-}
 </script>
 </body>
 </html>
